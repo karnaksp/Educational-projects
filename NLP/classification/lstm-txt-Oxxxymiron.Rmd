@@ -1,0 +1,124 @@
+---
+title: "Лабораторная работа № 9"
+output:
+  html_document:
+    df_print: paged
+---
+
+Загрузим библиотеки
+
+```{r echo = T, results = 'hide'}
+library(tidyverse)
+library(dplyr)
+library(NLP)
+library(tm)
+library(keras)
+```
+
+Чтение данных и токенизация
+
+```{r}
+data<- VCorpus(VectorSource(readLines("oxy.txt", encoding = "UTF-8")))
+# Чистка данных
+data <- tm_map(data, removePunctuation)  
+data <- tm_map(data, removeNumbers)     
+data <- tm_map(data, tolower)
+data <- tm_map(data, stripWhitespace)   
+data <- tm_map(data, PlainTextDocument)
+data<- data %>% # переформатирование в датафрейм
+  sapply(as.character) %>%
+  as.data.frame(stringsAsFactors = FALSE)
+require(stringr)
+# отформатируем столбец в качестве строки
+data<- as.String(data$.) %>% str_replace_all("[\\.]+", " ")
+# data<- data %>% str_replace_all("\n", " ")
+toks<- text_tokenizer(num_words = 12173, 
+                      lower = TRUE,
+                      char_level = F) %>% 
+  fit_text_tokenizer(data)
+paste(
+  "Количество уникальных слов:", length(toks$word_counts),"|",
+  "Общее количество слов:", str_count(data, ' ')
+)
+
+
+```
+
+Разделение на обучающие и таргет данные.
+
+```{r}
+text<- texts_to_sequences(toks, data)
+text<- text[[1]]
+
+inp_len<- 4
+X<- matrix(ncol = inp_len)
+Y<- matrix(ncol = 1)
+for (i in seq(inp_len, length(text))) {
+  if(i>=length(text)) {break()}
+  start_idx<- (i-inp_len)+1
+  end_idx<- i+1
+  new_seq<- text[start_idx:end_idx]
+  X<- rbind(X, new_seq[1:inp_len])
+  Y<- rbind(Y, new_seq[inp_len+1])
+}
+X<- X[-1,]
+Y<- Y[-1,]
+Y<- to_categorical(Y, num_classes = toks$num_words)
+print("Размер таргет переменной Y:")
+print(object.size(Y), units = "Mb")
+```
+
+Составление модели
+
+```{r}
+suppressWarnings(model<- keras_model_sequential())
+model %>% 
+  layer_embedding(input_dim = dim(X)[1],
+                  output_dim = 128, input_length = inp_len) %>%
+  layer_lstm(units = 64, return_sequences = F) %>%
+  layer_dense(dim(Y)[1]) %>%
+  layer_activation('softmax')
+summary(model)
+```
+
+Компиляция модели
+
+```{r echo = T, results = 'hide'}
+model %>% compile(
+  loss = 'categorical_crossentropy',
+  optimizer = optimizer_rmsprop(learning_rate = 0.002),
+  metrics = c('accuracy')
+)
+history<- model %>% fit(X, Y, batch_size = 32, epochs = 100)
+
+```
+
+```{r}
+plot(history)
+```
+
+```{r}
+gen_text<- function(model, toks, n_begin,
+                    beg_words, n_next_words){
+  form_text<- beg_words
+  for (i in seq(n_next_words)){
+    encoded<- texts_to_sequences(toks, form_text)[[1]]
+    encoded<- pad_sequences(sequences = list(encoded), maxlen = n_begin, 
+                            padding = 'pre')
+    what_next<- model %>% predict(encoded) %>% k_argmax()
+    next_word<- toks$index_word[[as.character(what_next)]]
+    form_text<- paste(form_text, next_word)
+  }
+  return(form_text)
+}
+
+begin = 'Везде сатирикон бездействие закона'
+cat('Текст 1: ', gen_text(model, toks, inp_len, begin, 16), "\n" )
+
+begin = 'Моя девочка'
+cat('Текст 1: ', gen_text(model, toks, inp_len, begin, 16), "\n" )
+```
+
+```{r}
+model %>% save_model_hdf5("oxyrap.h5")
+```
