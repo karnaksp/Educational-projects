@@ -1,5 +1,5 @@
 ## База данных
-![bd]()
+![bd](https://raw.githubusercontent.com/akscent/Educational-projects/main/Yandex_courses/Data_analyst/sql/img/sql_border2880_1628581406.png)
 
 * acquisition (cодержит информацию о покупках одних компаний другими);
 * company (cодержит информацию о компаниях-стартапах);
