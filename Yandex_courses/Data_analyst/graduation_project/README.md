@@ -3,7 +3,7 @@
 На основе всех полученных данных в курсе выполнить буткемп-проект по одной из выбранной областей, 
 провести:
 
-## Часть I: [Банки — cегментация пользователей по потреблению продуктов](https://github.com/ovalentinka/Data_analyst/blob/3e4272acf1b22cbf9e49706375ad128ead6b89b8/graduation_project/yandex_ex1_bank_karpova_new.ipynb)
+## Часть I: [Банки — cегментация пользователей по потреблению продуктов](yandex_ex1_bank.ipynb)
 
 ### Цель исследования
 Анализ и сегментация клиентов регионального банка по количеству потребляемых продуктов:
@@ -38,7 +38,7 @@
 *pandas, numpy, matplotlib, seaborn, scikit learn, scipy*
 
 
-## Часть II: [A/B-тестирование](https://github.com/ovalentinka/Data_analyst/blob/3e4272acf1b22cbf9e49706375ad128ead6b89b8/graduation_project/yandex_ex2_ab_karpova_new.ipynb)
+## Часть II: [A/B-тестирование](yandex_ex2_ab.ipynb)
 
 ### Цель исследования
 Проведение оценки результатов A/B-теста после введения улучшенной программы рекомендаций для региона EU.
@@ -52,7 +52,7 @@
 
 *pandas, numpy, matplotlib, seaborn, math, datetime, scipy*
 
-## Часть III: [SQL](https://github.com/ovalentinka/Data_analyst/blob/3e4272acf1b22cbf9e49706375ad128ead6b89b8/graduation_project/yandex_ex3_SQL_karpova_new.ipynb)
+## Часть III: [SQL](yandex_ex3_SQL.ipynb)
 
 Проанализировать базу данных. В ней — информация о книгах, издательствах, авторах, а также пользовательские
 обзоры книг. 
