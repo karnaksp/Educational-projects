@@ -1,0 +1,1 @@
+SELECT Product FROM laptops WHERE CPU LIKE 'Samsung%'

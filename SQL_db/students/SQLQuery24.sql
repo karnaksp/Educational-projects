@@ -1,0 +1,1 @@
+UPDATE daily_mark_rating_record SET exam = CEILING((RAND(CAST(NEWID() AS varbinary)) * 40));
