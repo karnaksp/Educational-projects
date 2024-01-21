@@ -34,6 +34,4 @@ make
 make run
 ```
 
-<a>
-    <img src="src/gif/3DViewer.gif" alt="" width="1000">
-</a>
+![gif](src/gif/3DViewer.gif)
