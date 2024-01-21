@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3DViewer v1.0: Исходный файл back/s21_3dparser.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">3DViewer v1.0
+   </div>
+   <div id="projectbrief">S21_3DViewer_v1</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_67ab303fab0c9e46fd209b6d91122e77.html">back</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">s21_3dparser.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="s21__3dparser_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef SRC_3DPARSER_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define SRC_3DPARSER_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="s21__3dparser_8h.html#a369266c24eacffb87046522897a570d5">    3</a></span>&#160;<span class="preprocessor">#define _GNU_SOURCE</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;sys/types.h&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;time.h&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#ifndef M_PI</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="s21__3dparser_8h.html#ae71449b1cc6e6250b91f539153a7a0d3">   18</a></span>&#160;<span class="preprocessor">#define M_PI 3.14159265358979323846</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="s21__3dparser_8h.html#a5d8c10d1cfaf103ef73e73c8e4c425c8">   28</a></span>&#160;<span class="preprocessor">#define S21_ADD_ELEM(array, count, elem) \</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">  do {                                   \</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">    (count)++;                           \</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">    (array)[(count)-1] = (elem);         \</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">  } while (0)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="s21__3dparser_8h.html#a564168f4e40271df5daf698f4233843f">   41</a></span>&#160;<span class="preprocessor">#define S21_CHECK_AND_FIX(elem, flag, countV) \</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">  do {                                        \</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">    if ((flag) == 1 &amp;&amp; (countV) != 0) {       \</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">      (elem) += (countV + 1);                 \</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">    }                                         \</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">  } while (0)</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="s21__3dparser_8h.html#a0c397a708cec89c74029582574516b30">   48</a></span>&#160;<span class="preprocessor">#define MAX_NAME_LENGTH 100</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="s21__3dparser_8h.html#a7de941c889a7c7743bc25ea6e5250b31">   49</a></span>&#160;<span class="preprocessor">#define COORDS 3</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="structShape.html">   54</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="structShape.html#a149d429c726fe13c36ec87708f983ea1">   55</a></span>&#160;  <span class="keywordtype">char</span> modelName[<a class="code" href="s21__3dparser_8h.html#a0c397a708cec89c74029582574516b30">MAX_NAME_LENGTH</a>];            </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="structShape.html#af106e50507170fc8ee19cfe722ef14e2">   56</a></span>&#160;  <span class="keywordtype">char</span> fileName[<a class="code" href="s21__3dparser_8h.html#a0c397a708cec89c74029582574516b30">MAX_NAME_LENGTH</a>];             </div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="structShape.html#aee3f97c12151a60d2bab46e9cb990c9a">   57</a></span>&#160;  <span class="keywordtype">unsigned</span> <a class="code" href="structShape.html#aee3f97c12151a60d2bab46e9cb990c9a">countV</a>;   <span class="comment">//-3441</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="structShape.html#a8e15d25e7651a150a86d002ad7acf775">   58</a></span>&#160;  <span class="keywordtype">unsigned</span> <a class="code" href="structShape.html#a8e15d25e7651a150a86d002ad7acf775">countVertexes</a>; </div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="structShape.html#a31072f2ffa22be6a547e594211bb992e">   59</a></span>&#160;  <span class="keywordtype">double</span>* <a class="code" href="structShape.html#a31072f2ffa22be6a547e594211bb992e">vertexes</a>; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="structShape.html#a99d9dc8bd352f3e8783e2a51b0d91d05">   60</a></span>&#160;  <span class="keywordtype">unsigned</span> <a class="code" href="structShape.html#a99d9dc8bd352f3e8783e2a51b0d91d05">countLines</a>; </div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="structShape.html#a4dd9577e6ec9bbfc6894e3a2571efcfb">   61</a></span>&#160;  <span class="keywordtype">unsigned</span> <a class="code" href="structShape.html#a4dd9577e6ec9bbfc6894e3a2571efcfb">countL</a>; </div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="structShape.html#a52c67b777b004f491bf884fc816596a4">   62</a></span>&#160;  <span class="keywordtype">unsigned</span>* <a class="code" href="structShape.html#a52c67b777b004f491bf884fc816596a4">lines</a>; </div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="structShape.html#a525707c64b9ee23af5068e6e476f8bc9">   63</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="structShape.html#a525707c64b9ee23af5068e6e476f8bc9">fflag</a>; </div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="structShape.html#aac11a9cd9f9cdc22712033545eeba393">   65</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="structShape.html#aac11a9cd9f9cdc22712033545eeba393">scale</a>; </div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="structShape.html#a1db1b33bc9e62f5966c666d919ac72f5">   66</a></span>&#160;  <span class="keywordtype">double</span> angles[<a class="code" href="s21__3dparser_8h.html#a7de941c889a7c7743bc25ea6e5250b31">COORDS</a>]; </div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="structShape.html#a12396e0f3bba1ee2610f4496a4437258">   67</a></span>&#160;  <span class="keywordtype">double</span> shifts[<a class="code" href="s21__3dparser_8h.html#a7de941c889a7c7743bc25ea6e5250b31">COORDS</a>]; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="structShape.html#aeeeeb8f21c4dcdb150ae34e50849b9d5">   69</a></span>&#160;  <span class="keywordtype">double</span> absolute_translation[3];</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <a class="code" href="structShape.html">Shape</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="structFrameElement.html">   76</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="structFrameElement.html#a6a3d14b887053977a41926c691a86390">   77</a></span>&#160;  <span class="keywordtype">unsigned</span> <a class="code" href="structFrameElement.html#a6a3d14b887053977a41926c691a86390">mask</a>; </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="structFrameElement.html#aa64a3c84f8498c4be4c17911a65bbc14">   78</a></span>&#160;  <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code" href="structFrameElement.html#aa64a3c84f8498c4be4c17911a65bbc14">v</a>;   </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="structFrameElement.html#a4c1c7778969913f11b76023f9214ee22">   79</a></span>&#160;  <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code" href="structFrameElement.html#a4c1c7778969913f11b76023f9214ee22">vt</a>;  </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="structFrameElement.html#a4deba64d49cbbf2c5b379b5cd675b2e2">   80</a></span>&#160;  <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code" href="structFrameElement.html#a4deba64d49cbbf2c5b379b5cd675b2e2">vn</a>;  </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;} <a class="code" href="structFrameElement.html">FrameElement</a>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="s21__3dparser_8h.html#a9ca6c67e06e3e7fbd5a1f237b5d28ec9">   86</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="s21__3dparser_8h.html#a5645b3c037fdcef22f8f7c346e27a1cb">Axis_</a> { <a class="code" href="s21__3dparser_8h.html#a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214">AXIS_X</a>, <a class="code" href="s21__3dparser_8h.html#a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b">AXIS_Y</a>, <a class="code" href="s21__3dparser_8h.html#a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8">AXIS_Z</a> } <a class="code" href="s21__3dparser_8h.html#a9ca6c67e06e3e7fbd5a1f237b5d28ec9">Axis</a>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keywordtype">int</span> <a class="code" href="s21__3dparser_8h.html#aae1dcb422cf6657d7090ae22f999742c">s21_initShape</a>(<a class="code" href="structShape.html">Shape</a>* shape, <span class="keyword">const</span> <span class="keywordtype">char</span>* file);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#a73135f7a54c4e1125a4ec16fa425ebb6">s21_zeroingShape</a>(<a class="code" href="structShape.html">Shape</a>* shape);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#a387aeef7c303c4a42a6ea8969c4477d7">s21_addNameFile</a>(<a class="code" href="structShape.html">Shape</a>* shape, <span class="keyword">const</span> <span class="keywordtype">char</span>* s);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#a7482d01796984ea402cd1a0da9d56c02">s21_extractFileName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* filePath, <span class="keywordtype">char</span>* fileName);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#a834a07528c094265a22e67470f1bc844">s21_addV</a>(<a class="code" href="structShape.html">Shape</a>* shape, <span class="keywordtype">char</span>* s);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#a99719391e88b5e575b2a68b9504a651f">s21_addF</a>(<a class="code" href="structShape.html">Shape</a>* shape, <span class="keywordtype">char</span>* s);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keywordtype">int</span> <a class="code" href="s21__3dparser_8h.html#a65f730bbda66ff8dd4549caef48f67b9">s21_readPolygon</a>(<a class="code" href="structFrameElement.html">FrameElement</a>* elem, <span class="keywordtype">char</span>** s, <a class="code" href="structShape.html">Shape</a>* shape);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#ab9751dd30527de6854d1589ea1520847">s21_centring</a>(<a class="code" href="structShape.html">Shape</a>* shape);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="keywordtype">int</span> <a class="code" href="s21__3dparser_8h.html#ad6faff44d1a8eabc06fabfc39d95a3fc">s21_setScale</a>(<a class="code" href="structShape.html">Shape</a>* shape, <span class="keywordtype">double</span> scale);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="keywordtype">int</span> <a class="code" href="s21__3dparser_8h.html#a33c8f34e1015d84fe6953e4f279cb8d8">s21_shifting</a>(<a class="code" href="structShape.html">Shape</a>* shape, <span class="keywordtype">double</span> coord, <a class="code" href="s21__3dparser_8h.html#a9ca6c67e06e3e7fbd5a1f237b5d28ec9">Axis</a> axis);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#a4f5f31e57c657f0c59619e463bd24d41">s21_clearShape</a>(<a class="code" href="structShape.html">Shape</a>* shape);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#ac55a9f01868a5b7c6389bc8b7e2e3167">matrix</a>(<span class="keywordtype">double</span> <a class="code" href="s21__3dparser_8h.html#ac55a9f01868a5b7c6389bc8b7e2e3167">matrix</a>[<a class="code" href="s21__3dparser_8h.html#a7de941c889a7c7743bc25ea6e5250b31">COORDS</a>][<a class="code" href="s21__3dparser_8h.html#a7de941c889a7c7743bc25ea6e5250b31">COORDS</a>], <span class="keywordtype">double</span> angulus_x, <span class="keywordtype">double</span> angulus_y,</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="keywordtype">double</span> angulus_z);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#a12f15c0df94ec3d737844591a44c9e24">rotate_point_with_matrix</a>(<span class="keywordtype">double</span>* vertexes,</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                              <span class="keywordtype">double</span> rotation_matrix[<a class="code" href="s21__3dparser_8h.html#a7de941c889a7c7743bc25ea6e5250b31">COORDS</a>][<a class="code" href="s21__3dparser_8h.html#a7de941c889a7c7743bc25ea6e5250b31">COORDS</a>]);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keywordtype">void</span> <a class="code" href="s21__3dparser_8h.html#a81add071277c12f027017b09136548ad">figure_rotation</a>(<a class="code" href="structShape.html">Shape</a>* shape, <span class="keywordtype">double</span> angulus_x, <span class="keywordtype">double</span> angulus_y,</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                     <span class="keywordtype">double</span> angulus_z);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">// void figure_rotation(Shape *object_3d, double angle_x, double angle_y,</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">//                      double angle_z);</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// SRC_3DPARSER_H</span></div>
+<div class="ttc" id="as21__3dparser_8h_html_a0c397a708cec89c74029582574516b30"><div class="ttname"><a href="s21__3dparser_8h.html#a0c397a708cec89c74029582574516b30">MAX_NAME_LENGTH</a></div><div class="ttdeci">#define MAX_NAME_LENGTH</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00048">s21_3dparser.h:48</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a12f15c0df94ec3d737844591a44c9e24"><div class="ttname"><a href="s21__3dparser_8h.html#a12f15c0df94ec3d737844591a44c9e24">rotate_point_with_matrix</a></div><div class="ttdeci">void rotate_point_with_matrix(double *vertexes, double rotation_matrix[COORDS][COORDS])</div><div class="ttdoc">Функция для вычисления новой точки на координатной плоскости</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00274">s21_3dparser.c:274</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a33c8f34e1015d84fe6953e4f279cb8d8"><div class="ttname"><a href="s21__3dparser_8h.html#a33c8f34e1015d84fe6953e4f279cb8d8">s21_shifting</a></div><div class="ttdeci">int s21_shifting(Shape *shape, double coord, Axis axis)</div><div class="ttdoc">Выполняет сдвиг вершин вдоль одной из осей</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00237">s21_3dparser.c:237</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a387aeef7c303c4a42a6ea8969c4477d7"><div class="ttname"><a href="s21__3dparser_8h.html#a387aeef7c303c4a42a6ea8969c4477d7">s21_addNameFile</a></div><div class="ttdeci">void s21_addNameFile(Shape *shape, const char *s)</div><div class="ttdoc">Добавление названия модели</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00113">s21_3dparser.c:113</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a4f5f31e57c657f0c59619e463bd24d41"><div class="ttname"><a href="s21__3dparser_8h.html#a4f5f31e57c657f0c59619e463bd24d41">s21_clearShape</a></div><div class="ttdeci">void s21_clearShape(Shape *shape)</div><div class="ttdoc">Функция освобождения памяти</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00252">s21_3dparser.c:252</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a5645b3c037fdcef22f8f7c346e27a1cb"><div class="ttname"><a href="s21__3dparser_8h.html#a5645b3c037fdcef22f8f7c346e27a1cb">Axis_</a></div><div class="ttdeci">Axis_</div><div class="ttdoc">Перечислимый тип для координатных осей</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00086">s21_3dparser.h:86</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214"><div class="ttname"><a href="s21__3dparser_8h.html#a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214">AXIS_X</a></div><div class="ttdeci">@ AXIS_X</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00086">s21_3dparser.h:86</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b"><div class="ttname"><a href="s21__3dparser_8h.html#a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b">AXIS_Y</a></div><div class="ttdeci">@ AXIS_Y</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00086">s21_3dparser.h:86</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8"><div class="ttname"><a href="s21__3dparser_8h.html#a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8">AXIS_Z</a></div><div class="ttdeci">@ AXIS_Z</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00086">s21_3dparser.h:86</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a65f730bbda66ff8dd4549caef48f67b9"><div class="ttname"><a href="s21__3dparser_8h.html#a65f730bbda66ff8dd4549caef48f67b9">s21_readPolygon</a></div><div class="ttdeci">int s21_readPolygon(FrameElement *elem, char **s, Shape *shape)</div><div class="ttdoc">Чтение координаты вершины полигона</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00163">s21_3dparser.c:163</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a73135f7a54c4e1125a4ec16fa425ebb6"><div class="ttname"><a href="s21__3dparser_8h.html#a73135f7a54c4e1125a4ec16fa425ebb6">s21_zeroingShape</a></div><div class="ttdeci">void s21_zeroingShape(Shape *shape)</div><div class="ttdoc">Функция обнуления структуры</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00078">s21_3dparser.c:78</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a7482d01796984ea402cd1a0da9d56c02"><div class="ttname"><a href="s21__3dparser_8h.html#a7482d01796984ea402cd1a0da9d56c02">s21_extractFileName</a></div><div class="ttdeci">void s21_extractFileName(const char *filePath, char *fileName)</div><div class="ttdoc">Добавление названия файла</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00096">s21_3dparser.c:96</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a7de941c889a7c7743bc25ea6e5250b31"><div class="ttname"><a href="s21__3dparser_8h.html#a7de941c889a7c7743bc25ea6e5250b31">COORDS</a></div><div class="ttdeci">#define COORDS</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00049">s21_3dparser.h:49</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a81add071277c12f027017b09136548ad"><div class="ttname"><a href="s21__3dparser_8h.html#a81add071277c12f027017b09136548ad">figure_rotation</a></div><div class="ttdeci">void figure_rotation(Shape *shape, double angulus_x, double angulus_y, double angulus_z)</div><div class="ttdoc">Функция для печати содержимого структуры</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00288">s21_3dparser.c:288</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a834a07528c094265a22e67470f1bc844"><div class="ttname"><a href="s21__3dparser_8h.html#a834a07528c094265a22e67470f1bc844">s21_addV</a></div><div class="ttdeci">void s21_addV(Shape *shape, char *s)</div><div class="ttdoc">Добавление вершины в структуру фигуры</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00127">s21_3dparser.c:127</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a99719391e88b5e575b2a68b9504a651f"><div class="ttname"><a href="s21__3dparser_8h.html#a99719391e88b5e575b2a68b9504a651f">s21_addF</a></div><div class="ttdeci">void s21_addF(Shape *shape, char *s)</div><div class="ttdoc">Добавление ребер в структуру фигуры</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00137">s21_3dparser.c:137</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_a9ca6c67e06e3e7fbd5a1f237b5d28ec9"><div class="ttname"><a href="s21__3dparser_8h.html#a9ca6c67e06e3e7fbd5a1f237b5d28ec9">Axis</a></div><div class="ttdeci">enum Axis_ Axis</div><div class="ttdoc">Перечислимый тип для координатных осей</div></div>
+<div class="ttc" id="as21__3dparser_8h_html_aae1dcb422cf6657d7090ae22f999742c"><div class="ttname"><a href="s21__3dparser_8h.html#aae1dcb422cf6657d7090ae22f999742c">s21_initShape</a></div><div class="ttdeci">int s21_initShape(Shape *shape, const char *file)</div><div class="ttdoc">Функция чтения файла объекта и инициализации структуры фигуры</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00065">s21_3dparser.c:65</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_ab9751dd30527de6854d1589ea1520847"><div class="ttname"><a href="s21__3dparser_8h.html#ab9751dd30527de6854d1589ea1520847">s21_centring</a></div><div class="ttdeci">void s21_centring(Shape *shape)</div><div class="ttdoc">Преобразование координат для попадания в область 1 &lt; x, y, z &lt; -1.</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00196">s21_3dparser.c:196</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_ac55a9f01868a5b7c6389bc8b7e2e3167"><div class="ttname"><a href="s21__3dparser_8h.html#ac55a9f01868a5b7c6389bc8b7e2e3167">matrix</a></div><div class="ttdeci">void matrix(double matrix[COORDS][COORDS], double angulus_x, double angulus_y, double angulus_z)</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00257">s21_3dparser.c:257</a></div></div>
+<div class="ttc" id="as21__3dparser_8h_html_ad6faff44d1a8eabc06fabfc39d95a3fc"><div class="ttname"><a href="s21__3dparser_8h.html#ad6faff44d1a8eabc06fabfc39d95a3fc">s21_setScale</a></div><div class="ttdeci">int s21_setScale(Shape *shape, double scale)</div><div class="ttdoc">Установка масштаба объекта</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8c_source.html#l00227">s21_3dparser.c:227</a></div></div>
+<div class="ttc" id="astructFrameElement_html"><div class="ttname"><a href="structFrameElement.html">FrameElement</a></div><div class="ttdoc">Структура для хранения элементов полигонов</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00076">s21_3dparser.h:76</a></div></div>
+<div class="ttc" id="astructFrameElement_html_a4c1c7778969913f11b76023f9214ee22"><div class="ttname"><a href="structFrameElement.html#a4c1c7778969913f11b76023f9214ee22">FrameElement::vt</a></div><div class="ttdeci">long long vt</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00079">s21_3dparser.h:79</a></div></div>
+<div class="ttc" id="astructFrameElement_html_a4deba64d49cbbf2c5b379b5cd675b2e2"><div class="ttname"><a href="structFrameElement.html#a4deba64d49cbbf2c5b379b5cd675b2e2">FrameElement::vn</a></div><div class="ttdeci">long long vn</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00080">s21_3dparser.h:80</a></div></div>
+<div class="ttc" id="astructFrameElement_html_a6a3d14b887053977a41926c691a86390"><div class="ttname"><a href="structFrameElement.html#a6a3d14b887053977a41926c691a86390">FrameElement::mask</a></div><div class="ttdeci">unsigned mask</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00077">s21_3dparser.h:77</a></div></div>
+<div class="ttc" id="astructFrameElement_html_aa64a3c84f8498c4be4c17911a65bbc14"><div class="ttname"><a href="structFrameElement.html#aa64a3c84f8498c4be4c17911a65bbc14">FrameElement::v</a></div><div class="ttdeci">long long v</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00078">s21_3dparser.h:78</a></div></div>
+<div class="ttc" id="astructShape_html"><div class="ttname"><a href="structShape.html">Shape</a></div><div class="ttdoc">Структура для хранения элементов фигуры</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00054">s21_3dparser.h:54</a></div></div>
+<div class="ttc" id="astructShape_html_a31072f2ffa22be6a547e594211bb992e"><div class="ttname"><a href="structShape.html#a31072f2ffa22be6a547e594211bb992e">Shape::vertexes</a></div><div class="ttdeci">double * vertexes</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00059">s21_3dparser.h:59</a></div></div>
+<div class="ttc" id="astructShape_html_a4dd9577e6ec9bbfc6894e3a2571efcfb"><div class="ttname"><a href="structShape.html#a4dd9577e6ec9bbfc6894e3a2571efcfb">Shape::countL</a></div><div class="ttdeci">unsigned countL</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00061">s21_3dparser.h:61</a></div></div>
+<div class="ttc" id="astructShape_html_a525707c64b9ee23af5068e6e476f8bc9"><div class="ttname"><a href="structShape.html#a525707c64b9ee23af5068e6e476f8bc9">Shape::fflag</a></div><div class="ttdeci">int fflag</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00063">s21_3dparser.h:63</a></div></div>
+<div class="ttc" id="astructShape_html_a52c67b777b004f491bf884fc816596a4"><div class="ttname"><a href="structShape.html#a52c67b777b004f491bf884fc816596a4">Shape::lines</a></div><div class="ttdeci">unsigned * lines</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00062">s21_3dparser.h:62</a></div></div>
+<div class="ttc" id="astructShape_html_a8e15d25e7651a150a86d002ad7acf775"><div class="ttname"><a href="structShape.html#a8e15d25e7651a150a86d002ad7acf775">Shape::countVertexes</a></div><div class="ttdeci">unsigned countVertexes</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00058">s21_3dparser.h:58</a></div></div>
+<div class="ttc" id="astructShape_html_a99d9dc8bd352f3e8783e2a51b0d91d05"><div class="ttname"><a href="structShape.html#a99d9dc8bd352f3e8783e2a51b0d91d05">Shape::countLines</a></div><div class="ttdeci">unsigned countLines</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00060">s21_3dparser.h:60</a></div></div>
+<div class="ttc" id="astructShape_html_aac11a9cd9f9cdc22712033545eeba393"><div class="ttname"><a href="structShape.html#aac11a9cd9f9cdc22712033545eeba393">Shape::scale</a></div><div class="ttdeci">double scale</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00065">s21_3dparser.h:65</a></div></div>
+<div class="ttc" id="astructShape_html_aee3f97c12151a60d2bab46e9cb990c9a"><div class="ttname"><a href="structShape.html#aee3f97c12151a60d2bab46e9cb990c9a">Shape::countV</a></div><div class="ttdeci">unsigned countV</div><div class="ttdef"><b>Definition:</b> <a href="s21__3dparser_8h_source.html#l00057">s21_3dparser.h:57</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

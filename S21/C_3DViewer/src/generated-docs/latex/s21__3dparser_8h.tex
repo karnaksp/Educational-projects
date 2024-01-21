@@ -1,0 +1,938 @@
+\hypertarget{s21__3dparser_8h}{}\doxysection{Файл back/s21\+\_\+3dparser.h}
+\label{s21__3dparser_8h}\index{back/s21\_3dparser.h@{back/s21\_3dparser.h}}
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+\doxysubsection*{Классы}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structShape}{Shape}}
+\begin{DoxyCompactList}\small\item\em Структура для хранения элементов фигуры \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structFrameElement}{Frame\+Element}}
+\begin{DoxyCompactList}\small\item\em Структура для хранения элементов полигонов \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Макросы}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{s21__3dparser_8h_a369266c24eacffb87046522897a570d5}{\+\_\+\+GNU\+\_\+\+SOURCE}}
+\item 
+\#define \mbox{\hyperlink{s21__3dparser_8h_ae71449b1cc6e6250b91f539153a7a0d3}{M\+\_\+\+PI}}~3.\+14159265358979323846
+\begin{DoxyCompactList}\small\item\em Definition for Valgrind memory testing on Linux distribution, where M\+\_\+\+PI is not defined in C standard. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{s21__3dparser_8h_a5d8c10d1cfaf103ef73e73c8e4c425c8}{S21\+\_\+\+ADD\+\_\+\+ELEM}}(array,  count,  elem)
+\begin{DoxyCompactList}\small\item\em Добавление элемента в массив с перераспределением памяти \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{s21__3dparser_8h_a564168f4e40271df5daf698f4233843f}{S21\+\_\+\+CHECK\+\_\+\+AND\+\_\+\+FIX}}(elem,  flag,  countV)
+\begin{DoxyCompactList}\small\item\em Исправление отрицательных целых чисел в массиве ребер \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}{MAX\+\_\+\+NAME\+\_\+\+LENGTH}}~100
+\item 
+\#define \mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}~3
+\end{DoxyCompactItemize}
+\doxysubsection*{Определения типов}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cb}{Axis\+\_\+}} \mbox{\hyperlink{s21__3dparser_8h_a9ca6c67e06e3e7fbd5a1f237b5d28ec9}{Axis}}
+\begin{DoxyCompactList}\small\item\em Перечислимый тип для координатных осей \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Перечисления}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cb}{Axis\+\_\+}} \{ \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\+\_\+X}}
+, \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\+\_\+Y}}
+, \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\+\_\+Z}}
+ \}
+\begin{DoxyCompactList}\small\item\em Перечислимый тип для координатных осей \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{s21__3dparser_8h_aae1dcb422cf6657d7090ae22f999742c}{s21\+\_\+init\+Shape}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape, const char $\ast$file)
+\begin{DoxyCompactList}\small\item\em Функция чтения файла объекта и инициализации структуры фигуры \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_a73135f7a54c4e1125a4ec16fa425ebb6}{s21\+\_\+zeroing\+Shape}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape)
+\begin{DoxyCompactList}\small\item\em Функция обнуления структуры \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_a387aeef7c303c4a42a6ea8969c4477d7}{s21\+\_\+add\+Name\+File}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape, const char $\ast$s)
+\begin{DoxyCompactList}\small\item\em Добавление названия модели \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_a7482d01796984ea402cd1a0da9d56c02}{s21\+\_\+extract\+File\+Name}} (const char $\ast$file\+Path, char $\ast$file\+Name)
+\begin{DoxyCompactList}\small\item\em Добавление названия файла \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_a834a07528c094265a22e67470f1bc844}{s21\+\_\+addV}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape, char $\ast$s)
+\begin{DoxyCompactList}\small\item\em Добавление вершины в структуру фигуры \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_a99719391e88b5e575b2a68b9504a651f}{s21\+\_\+addF}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape, char $\ast$s)
+\begin{DoxyCompactList}\small\item\em Добавление ребер в структуру фигуры \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{s21__3dparser_8h_a65f730bbda66ff8dd4549caef48f67b9}{s21\+\_\+read\+Polygon}} (\mbox{\hyperlink{structFrameElement}{Frame\+Element}} $\ast$elem, char $\ast$$\ast$s, \mbox{\hyperlink{structShape}{Shape}} $\ast$shape)
+\begin{DoxyCompactList}\small\item\em Чтение координаты вершины полигона \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_ab9751dd30527de6854d1589ea1520847}{s21\+\_\+centring}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape)
+\begin{DoxyCompactList}\small\item\em Преобразование координат для попадания в область 1 $<$ x, y, z $<$ -\/1. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{s21__3dparser_8h_ad6faff44d1a8eabc06fabfc39d95a3fc}{s21\+\_\+set\+Scale}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape, double scale)
+\begin{DoxyCompactList}\small\item\em Установка масштаба объекта \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{s21__3dparser_8h_a33c8f34e1015d84fe6953e4f279cb8d8}{s21\+\_\+shifting}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape, double coord, \mbox{\hyperlink{s21__3dparser_8h_a9ca6c67e06e3e7fbd5a1f237b5d28ec9}{Axis}} axis)
+\begin{DoxyCompactList}\small\item\em Выполняет сдвиг вершин вдоль одной из осей \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_a4f5f31e57c657f0c59619e463bd24d41}{s21\+\_\+clear\+Shape}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape)
+\begin{DoxyCompactList}\small\item\em Функция освобождения памяти \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}} (double matrix\mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}\mbox{]}\mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}\mbox{]}, double angulus\+\_\+x, double angulus\+\_\+y, double angulus\+\_\+z)
+\item 
+void \mbox{\hyperlink{s21__3dparser_8h_a12f15c0df94ec3d737844591a44c9e24}{rotate\+\_\+point\+\_\+with\+\_\+matrix}} (double $\ast$vertexes, double rotation\+\_\+matrix\mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}\mbox{]}\mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}\mbox{]})
+\begin{DoxyCompactList}\small\item\em Функция для вычисления новой точки на координатной плоскости \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{s21__3dparser_8h_a81add071277c12f027017b09136548ad}{figure\+\_\+rotation}} (\mbox{\hyperlink{structShape}{Shape}} $\ast$shape, double angulus\+\_\+x, double angulus\+\_\+y, double angulus\+\_\+z)
+\begin{DoxyCompactList}\small\item\em Функция для печати содержимого структуры \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Макросы}
+\mbox{\Hypertarget{s21__3dparser_8h_a369266c24eacffb87046522897a570d5}\label{s21__3dparser_8h_a369266c24eacffb87046522897a570d5}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!\_GNU\_SOURCE@{\_GNU\_SOURCE}}
+\index{\_GNU\_SOURCE@{\_GNU\_SOURCE}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{\_GNU\_SOURCE}{\_GNU\_SOURCE}}
+{\footnotesize\ttfamily \#define \+\_\+\+GNU\+\_\+\+SOURCE}
+
+
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 3
+
+\mbox{\Hypertarget{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}\label{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!COORDS@{COORDS}}
+\index{COORDS@{COORDS}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{COORDS}{COORDS}}
+{\footnotesize\ttfamily \#define COORDS~3}
+
+
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 49
+
+\mbox{\Hypertarget{s21__3dparser_8h_ae71449b1cc6e6250b91f539153a7a0d3}\label{s21__3dparser_8h_ae71449b1cc6e6250b91f539153a7a0d3}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!M\_PI@{M\_PI}}
+\index{M\_PI@{M\_PI}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{M\_PI}{M\_PI}}
+{\footnotesize\ttfamily \#define M\+\_\+\+PI~3.\+14159265358979323846}
+
+
+
+Definition for Valgrind memory testing on Linux distribution, where M\+\_\+\+PI is not defined in C standard. 
+
+
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 18
+
+\mbox{\Hypertarget{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}\label{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!MAX\_NAME\_LENGTH@{MAX\_NAME\_LENGTH}}
+\index{MAX\_NAME\_LENGTH@{MAX\_NAME\_LENGTH}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_NAME\_LENGTH}{MAX\_NAME\_LENGTH}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+NAME\+\_\+\+LENGTH~100}
+
+
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 48
+
+\mbox{\Hypertarget{s21__3dparser_8h_a5d8c10d1cfaf103ef73e73c8e4c425c8}\label{s21__3dparser_8h_a5d8c10d1cfaf103ef73e73c8e4c425c8}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!S21\_ADD\_ELEM@{S21\_ADD\_ELEM}}
+\index{S21\_ADD\_ELEM@{S21\_ADD\_ELEM}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{S21\_ADD\_ELEM}{S21\_ADD\_ELEM}}
+{\footnotesize\ttfamily \#define S21\+\_\+\+ADD\+\_\+\+ELEM(\begin{DoxyParamCaption}\item[{}]{array,  }\item[{}]{count,  }\item[{}]{elem }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{  \textcolor{keywordflow}{do} \{                                   \(\backslash\)}
+\DoxyCodeLine{    (count)++;                           \(\backslash\)}
+\DoxyCodeLine{    (array)[(count)-\/1] = (elem);         \(\backslash\)}
+\DoxyCodeLine{  \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+
+
+Добавление элемента в массив с перераспределением памяти 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em array} & Указатель на массив \\
+\hline
+{\em count} & Счетчик элементов в массиве \\
+\hline
+{\em elem} & Добавляемый элемент \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 28
+
+\mbox{\Hypertarget{s21__3dparser_8h_a564168f4e40271df5daf698f4233843f}\label{s21__3dparser_8h_a564168f4e40271df5daf698f4233843f}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!S21\_CHECK\_AND\_FIX@{S21\_CHECK\_AND\_FIX}}
+\index{S21\_CHECK\_AND\_FIX@{S21\_CHECK\_AND\_FIX}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{S21\_CHECK\_AND\_FIX}{S21\_CHECK\_AND\_FIX}}
+{\footnotesize\ttfamily \#define S21\+\_\+\+CHECK\+\_\+\+AND\+\_\+\+FIX(\begin{DoxyParamCaption}\item[{}]{elem,  }\item[{}]{flag,  }\item[{}]{countV }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{  \textcolor{keywordflow}{do} \{                                        \(\backslash\)}
+\DoxyCodeLine{    if ((flag) == 1 \&\& (countV) != 0) \{       \(\backslash\)}
+\DoxyCodeLine{      (elem) += (countV + 1);                 \(\backslash\)}
+\DoxyCodeLine{    \}                                         \(\backslash\)}
+\DoxyCodeLine{  \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+
+
+Исправление отрицательных целых чисел в массиве ребер 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em lines} & Указатель на массив ребер \\
+\hline
+{\em count\+Lines} & Счетчик элементов в массиве \\
+\hline
+{\em countV} & Счетчик вершин в фигуре \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 41
+
+
+
+\doxysubsection{Типы}
+\mbox{\Hypertarget{s21__3dparser_8h_a9ca6c67e06e3e7fbd5a1f237b5d28ec9}\label{s21__3dparser_8h_a9ca6c67e06e3e7fbd5a1f237b5d28ec9}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!Axis@{Axis}}
+\index{Axis@{Axis}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{Axis}{Axis}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cb}{Axis\+\_\+}} \mbox{\hyperlink{s21__3dparser_8h_a9ca6c67e06e3e7fbd5a1f237b5d28ec9}{Axis}}}
+
+
+
+Перечислимый тип для координатных осей 
+
+
+
+\doxysubsection{Перечисления}
+\mbox{\Hypertarget{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cb}\label{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cb}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!Axis\_@{Axis\_}}
+\index{Axis\_@{Axis\_}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{Axis\_}{Axis\_}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cb}{Axis\+\_\+}}}
+
+
+
+Перечислимый тип для координатных осей 
+
+\begin{DoxyEnumFields}{Элементы перечислений}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AXIS\_X@{AXIS\_X}!s21\_3dparser.h@{s21\_3dparser.h}}\index{s21\_3dparser.h@{s21\_3dparser.h}!AXIS\_X@{AXIS\_X}}}\mbox{\Hypertarget{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}\label{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}} 
+AXIS\+\_\+X&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AXIS\_Y@{AXIS\_Y}!s21\_3dparser.h@{s21\_3dparser.h}}\index{s21\_3dparser.h@{s21\_3dparser.h}!AXIS\_Y@{AXIS\_Y}}}\mbox{\Hypertarget{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}\label{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}} 
+AXIS\+\_\+Y&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AXIS\_Z@{AXIS\_Z}!s21\_3dparser.h@{s21\_3dparser.h}}\index{s21\_3dparser.h@{s21\_3dparser.h}!AXIS\_Z@{AXIS\_Z}}}\mbox{\Hypertarget{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}\label{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}} 
+AXIS\+\_\+Z&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 86
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{86 \{ \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}}, \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}}, \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}} \} \mbox{\hyperlink{s21__3dparser_8h_a9ca6c67e06e3e7fbd5a1f237b5d28ec9}{Axis}};}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Функции}
+\mbox{\Hypertarget{s21__3dparser_8h_a81add071277c12f027017b09136548ad}\label{s21__3dparser_8h_a81add071277c12f027017b09136548ad}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!figure\_rotation@{figure\_rotation}}
+\index{figure\_rotation@{figure\_rotation}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{figure\_rotation()}{figure\_rotation()}}
+{\footnotesize\ttfamily void figure\+\_\+rotation (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape,  }\item[{double}]{angulus\+\_\+x,  }\item[{double}]{angulus\+\_\+y,  }\item[{double}]{angulus\+\_\+z }\end{DoxyParamCaption})}
+
+
+
+Функция для печати содержимого структуры 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Структура obj файла \\
+\hline
+{\em angulus\+\_\+x} & Угол поворота по оси x \\
+\hline
+{\em angulus\+\_\+y} & Угол поворота по оси y \\
+\hline
+{\em angulus\+\_\+z} & Угол поворота по оси z \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 288
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{289                                        \{}
+\DoxyCodeLine{290   \textcolor{keywordtype}{double} factor = 0.0;}
+\DoxyCodeLine{291 }
+\DoxyCodeLine{292   \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}}] != 0 ||}
+\DoxyCodeLine{293       shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}}] != 0 ||}
+\DoxyCodeLine{294       shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}}] != 0) \{}
+\DoxyCodeLine{295     factor = shape-\/>\mbox{\hyperlink{structShape_aac11a9cd9f9cdc22712033545eeba393}{scale}} / 1;}
+\DoxyCodeLine{296     factor = 1.0;}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298     \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}}] != 0) \{}
+\DoxyCodeLine{299       \mbox{\hyperlink{s21__3dparser_8c_a33c8f34e1015d84fe6953e4f279cb8d8}{s21\_shifting}}(shape, factor * -\/1 * shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}}],}
+\DoxyCodeLine{300                    \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}});}
+\DoxyCodeLine{301     \}}
+\DoxyCodeLine{302     \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}}] != 0) \{}
+\DoxyCodeLine{303       \mbox{\hyperlink{s21__3dparser_8c_a33c8f34e1015d84fe6953e4f279cb8d8}{s21\_shifting}}(shape, factor * -\/1 * shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}}],}
+\DoxyCodeLine{304                    \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}});}
+\DoxyCodeLine{305     \}}
+\DoxyCodeLine{306     \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}}] != 0) \{}
+\DoxyCodeLine{307       \mbox{\hyperlink{s21__3dparser_8c_a33c8f34e1015d84fe6953e4f279cb8d8}{s21\_shifting}}(shape, factor * -\/1 * shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}}],}
+\DoxyCodeLine{308                    \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}});}
+\DoxyCodeLine{309     \}}
+\DoxyCodeLine{310   \}}
+\DoxyCodeLine{311 }
+\DoxyCodeLine{312   \textcolor{keywordtype}{double} result\_matrix[\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}][\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}] = \{}
+\DoxyCodeLine{313       0,}
+\DoxyCodeLine{314   \};}
+\DoxyCodeLine{315   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}(result\_matrix, angulus\_x * \mbox{\hyperlink{s21__3dparser_8h_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}} / 180, angulus\_y * \mbox{\hyperlink{s21__3dparser_8h_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}} / 180,}
+\DoxyCodeLine{316          angulus\_z * \mbox{\hyperlink{s21__3dparser_8h_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}} / 180);}
+\DoxyCodeLine{317   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} i = 0; i + 3 <= shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}}; i += 3) \{}
+\DoxyCodeLine{318     \mbox{\hyperlink{s21__3dparser_8c_a12f15c0df94ec3d737844591a44c9e24}{rotate\_point\_with\_matrix}}(shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}} + i, result\_matrix);}
+\DoxyCodeLine{319   \}}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321   \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}}] != 0 ||}
+\DoxyCodeLine{322       shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}}] != 0 ||}
+\DoxyCodeLine{323       shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}}] != 0) \{}
+\DoxyCodeLine{324     \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}}] != 0) \{}
+\DoxyCodeLine{325       \mbox{\hyperlink{s21__3dparser_8c_a33c8f34e1015d84fe6953e4f279cb8d8}{s21\_shifting}}(shape, factor * shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}}], \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cba96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}});}
+\DoxyCodeLine{326     \}}
+\DoxyCodeLine{327     \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}}] != 0) \{}
+\DoxyCodeLine{328       \mbox{\hyperlink{s21__3dparser_8c_a33c8f34e1015d84fe6953e4f279cb8d8}{s21\_shifting}}(shape, factor * shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}}], \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}});}
+\DoxyCodeLine{329     \}}
+\DoxyCodeLine{330     \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}}] != 0) \{}
+\DoxyCodeLine{331       \mbox{\hyperlink{s21__3dparser_8c_a33c8f34e1015d84fe6953e4f279cb8d8}{s21\_shifting}}(shape, factor * shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[\mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}}], \mbox{\hyperlink{s21__3dparser_8h_a5645b3c037fdcef22f8f7c346e27a1cbaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}});}
+\DoxyCodeLine{332     \}}
+\DoxyCodeLine{333   \}}
+\DoxyCodeLine{334 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки Shape\+::absolute\+\_\+translation, AXIS\+\_\+X, AXIS\+\_\+Y, AXIS\+\_\+Z, COORDS, Shape\+::count\+Vertexes, M\+\_\+\+PI, matrix(), rotate\+\_\+point\+\_\+with\+\_\+matrix(), s21\+\_\+shifting(), Shape\+::scale и Shape\+::vertexes.
+
+\mbox{\Hypertarget{s21__3dparser_8h_ac55a9f01868a5b7c6389bc8b7e2e3167}\label{s21__3dparser_8h_ac55a9f01868a5b7c6389bc8b7e2e3167}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!matrix@{matrix}}
+\index{matrix@{matrix}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{matrix()}{matrix()}}
+{\footnotesize\ttfamily void matrix (\begin{DoxyParamCaption}\item[{double}]{matrix\mbox{[}\+COORDS\mbox{]}\mbox{[}\+COORDS\mbox{]},  }\item[{double}]{angulus\+\_\+x,  }\item[{double}]{angulus\+\_\+y,  }\item[{double}]{angulus\+\_\+z }\end{DoxyParamCaption})}
+
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 257
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{258                               \{}
+\DoxyCodeLine{259   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[0][0] = cos(angulus\_y) * cos(angulus\_z);}
+\DoxyCodeLine{260   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[0][1] = -\/sin(angulus\_z) * cos(angulus\_y);}
+\DoxyCodeLine{261   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[0][2] = sin(angulus\_y);}
+\DoxyCodeLine{262   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[1][0] = sin(angulus\_x) * sin(angulus\_y) * cos(angulus\_z) +}
+\DoxyCodeLine{263                  sin(angulus\_z) * cos(angulus\_x);}
+\DoxyCodeLine{264   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[1][1] = -\/sin(angulus\_x) * sin(angulus\_y) * sin(angulus\_z) +}
+\DoxyCodeLine{265                  cos(angulus\_x) * cos(angulus\_z);}
+\DoxyCodeLine{266   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[1][2] = -\/sin(angulus\_x) * cos(angulus\_y);}
+\DoxyCodeLine{267   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[2][0] = sin(angulus\_x) * sin(angulus\_z) -\/}
+\DoxyCodeLine{268                  sin(angulus\_y) * cos(angulus\_x) * cos(angulus\_z);}
+\DoxyCodeLine{269   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[2][1] = sin(angulus\_x) * cos(angulus\_z) +}
+\DoxyCodeLine{270                  sin(angulus\_y) * sin(angulus\_z) * cos(angulus\_x);}
+\DoxyCodeLine{271   \mbox{\hyperlink{s21__3dparser_8c_ac55a9f01868a5b7c6389bc8b7e2e3167}{matrix}}[2][2] = cos(angulus\_x) * cos(angulus\_y);}
+\DoxyCodeLine{272 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки matrix().
+
+
+
+Используется в figure\+\_\+rotation() и matrix().
+
+\mbox{\Hypertarget{s21__3dparser_8h_a12f15c0df94ec3d737844591a44c9e24}\label{s21__3dparser_8h_a12f15c0df94ec3d737844591a44c9e24}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!rotate\_point\_with\_matrix@{rotate\_point\_with\_matrix}}
+\index{rotate\_point\_with\_matrix@{rotate\_point\_with\_matrix}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{rotate\_point\_with\_matrix()}{rotate\_point\_with\_matrix()}}
+{\footnotesize\ttfamily void rotate\+\_\+point\+\_\+with\+\_\+matrix (\begin{DoxyParamCaption}\item[{double $\ast$}]{vertexes,  }\item[{double}]{rotation\+\_\+matrix\mbox{[}\+COORDS\mbox{]}\mbox{[}\+COORDS\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Функция для вычисления новой точки на координатной плоскости 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em vertexes} & Массив с координатами вершин \\
+\hline
+{\em rotation\+\_\+matrix} & Матрица поворота \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 274
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{275                                                                       \{}
+\DoxyCodeLine{276   \textcolor{keywordtype}{double} x = vertexes[0];}
+\DoxyCodeLine{277   \textcolor{keywordtype}{double} y = vertexes[1];}
+\DoxyCodeLine{278   \textcolor{keywordtype}{double} z = vertexes[2];}
+\DoxyCodeLine{279 }
+\DoxyCodeLine{280   vertexes[0] = rotation\_matrix[0][0] * x + rotation\_matrix[0][1] * y +}
+\DoxyCodeLine{281                 rotation\_matrix[0][2] * z;}
+\DoxyCodeLine{282   vertexes[1] = rotation\_matrix[1][0] * x + rotation\_matrix[1][1] * y +}
+\DoxyCodeLine{283                 rotation\_matrix[1][2] * z;}
+\DoxyCodeLine{284   vertexes[2] = rotation\_matrix[2][0] * x + rotation\_matrix[2][1] * y +}
+\DoxyCodeLine{285                 rotation\_matrix[2][2] * z;}
+\DoxyCodeLine{286 \}}
+
+\end{DoxyCode}
+
+
+Используется в figure\+\_\+rotation().
+
+\mbox{\Hypertarget{s21__3dparser_8h_a99719391e88b5e575b2a68b9504a651f}\label{s21__3dparser_8h_a99719391e88b5e575b2a68b9504a651f}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_addF@{s21\_addF}}
+\index{s21\_addF@{s21\_addF}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_addF()}{s21\_addF()}}
+{\footnotesize\ttfamily void s21\+\_\+addF (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape,  }\item[{char $\ast$}]{s }\end{DoxyParamCaption})}
+
+
+
+Добавление ребер в структуру фигуры 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру фигуры \\
+\hline
+{\em s} & Одна строка из файла \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 137
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{137                                      \{}
+\DoxyCodeLine{138   \mbox{\hyperlink{structFrameElement}{FrameElement}} elem, firstElem;}
+\DoxyCodeLine{139   \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}} != NULL) \{}
+\DoxyCodeLine{140     \textcolor{keywordflow}{if} (\mbox{\hyperlink{s21__3dparser_8c_a65f730bbda66ff8dd4549caef48f67b9}{s21\_readPolygon}}(\&firstElem, \&s, shape)) \{}
+\DoxyCodeLine{141       \mbox{\hyperlink{s21__3dparser_8h_a5d8c10d1cfaf103ef73e73c8e4c425c8}{S21\_ADD\_ELEM}}(shape-\/>\mbox{\hyperlink{structShape_a52c67b777b004f491bf884fc816596a4}{lines}}, shape-\/>\mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{countLines}}, firstElem.\mbox{\hyperlink{structFrameElement_aa64a3c84f8498c4be4c17911a65bbc14}{v}} -\/ 1);}
+\DoxyCodeLine{142     \}}
+\DoxyCodeLine{143     \textcolor{keywordflow}{while} (\mbox{\hyperlink{s21__3dparser_8c_a65f730bbda66ff8dd4549caef48f67b9}{s21\_readPolygon}}(\&elem, \&s, shape)) \{}
+\DoxyCodeLine{144       \mbox{\hyperlink{s21__3dparser_8h_a5d8c10d1cfaf103ef73e73c8e4c425c8}{S21\_ADD\_ELEM}}(shape-\/>\mbox{\hyperlink{structShape_a52c67b777b004f491bf884fc816596a4}{lines}}, shape-\/>\mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{countLines}}, elem.\mbox{\hyperlink{structFrameElement_aa64a3c84f8498c4be4c17911a65bbc14}{v}} -\/ 1);}
+\DoxyCodeLine{145       \mbox{\hyperlink{s21__3dparser_8h_a5d8c10d1cfaf103ef73e73c8e4c425c8}{S21\_ADD\_ELEM}}(shape-\/>\mbox{\hyperlink{structShape_a52c67b777b004f491bf884fc816596a4}{lines}}, shape-\/>\mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{countLines}}, elem.\mbox{\hyperlink{structFrameElement_aa64a3c84f8498c4be4c17911a65bbc14}{v}} -\/ 1);}
+\DoxyCodeLine{146     \}}
+\DoxyCodeLine{147     \textcolor{keywordflow}{if} (firstElem.\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}}) \{}
+\DoxyCodeLine{148       \mbox{\hyperlink{s21__3dparser_8h_a5d8c10d1cfaf103ef73e73c8e4c425c8}{S21\_ADD\_ELEM}}(shape-\/>\mbox{\hyperlink{structShape_a52c67b777b004f491bf884fc816596a4}{lines}}, shape-\/>\mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{countLines}}, firstElem.\mbox{\hyperlink{structFrameElement_aa64a3c84f8498c4be4c17911a65bbc14}{v}} -\/ 1);}
+\DoxyCodeLine{149     \}}
+\DoxyCodeLine{150   \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{151     \textcolor{keywordflow}{if} (\mbox{\hyperlink{s21__3dparser_8c_a65f730bbda66ff8dd4549caef48f67b9}{s21\_readPolygon}}(\&firstElem, \&s, shape)) \{}
+\DoxyCodeLine{152       shape-\/>\mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{countLines}}++;}
+\DoxyCodeLine{153     \}}
+\DoxyCodeLine{154     \textcolor{keywordflow}{while} (\mbox{\hyperlink{s21__3dparser_8c_a65f730bbda66ff8dd4549caef48f67b9}{s21\_readPolygon}}(\&elem, \&s, shape)) \{}
+\DoxyCodeLine{155       shape-\/>\mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{countLines}} += 2;}
+\DoxyCodeLine{156     \}}
+\DoxyCodeLine{157     \textcolor{keywordflow}{if} (firstElem.\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}}) \{}
+\DoxyCodeLine{158       shape-\/>\mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{countLines}}++;}
+\DoxyCodeLine{159     \}}
+\DoxyCodeLine{160   \}}
+\DoxyCodeLine{161 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки Shape\+::count\+Lines, Shape\+::lines, Frame\+Element\+::mask, S21\+\_\+\+ADD\+\_\+\+ELEM, s21\+\_\+read\+Polygon(), Frame\+Element\+::v и Shape\+::vertexes.
+
+
+
+Используется в s21\+\_\+allocate\+Shape() и s21\+\_\+count\+Init().
+
+\mbox{\Hypertarget{s21__3dparser_8h_a387aeef7c303c4a42a6ea8969c4477d7}\label{s21__3dparser_8h_a387aeef7c303c4a42a6ea8969c4477d7}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_addNameFile@{s21\_addNameFile}}
+\index{s21\_addNameFile@{s21\_addNameFile}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_addNameFile()}{s21\_addNameFile()}}
+{\footnotesize\ttfamily void s21\+\_\+add\+Name\+File (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape,  }\item[{const char $\ast$}]{s }\end{DoxyParamCaption})}
+
+
+
+Добавление названия модели 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру фигуры \\
+\hline
+{\em s} & Одна строка из файла \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 113
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{113                                                   \{}
+\DoxyCodeLine{114   \textcolor{keywordtype}{char} type;}
+\DoxyCodeLine{115   \textcolor{keywordtype}{char} name[\mbox{\hyperlink{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}{MAX\_NAME\_LENGTH}}];}
+\DoxyCodeLine{116   \textcolor{keywordtype}{int} n;}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118   sscanf(s, \textcolor{stringliteral}{"{} \%c \%n"{}}, \&type, \&n);}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120   \textcolor{keywordflow}{if} (type == \textcolor{charliteral}{'o'}) \{}
+\DoxyCodeLine{121     sscanf(s + n, \textcolor{stringliteral}{"{}\%s"{}}, name);}
+\DoxyCodeLine{122     strncpy(shape-\/>\mbox{\hyperlink{structShape_a149d429c726fe13c36ec87708f983ea1}{modelName}}, name, \mbox{\hyperlink{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}{MAX\_NAME\_LENGTH}});}
+\DoxyCodeLine{123     shape-\/>\mbox{\hyperlink{structShape_a149d429c726fe13c36ec87708f983ea1}{modelName}}[\mbox{\hyperlink{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}{MAX\_NAME\_LENGTH}} -\/ 1] = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{124   \}}
+\DoxyCodeLine{125 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки MAX\+\_\+\+NAME\+\_\+\+LENGTH и Shape\+::model\+Name.
+
+
+
+Используется в s21\+\_\+allocate\+Shape().
+
+\mbox{\Hypertarget{s21__3dparser_8h_a834a07528c094265a22e67470f1bc844}\label{s21__3dparser_8h_a834a07528c094265a22e67470f1bc844}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_addV@{s21\_addV}}
+\index{s21\_addV@{s21\_addV}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_addV()}{s21\_addV()}}
+{\footnotesize\ttfamily void s21\+\_\+addV (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape,  }\item[{char $\ast$}]{s }\end{DoxyParamCaption})}
+
+
+
+Добавление вершины в структуру фигуры 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру фигуры \\
+\hline
+{\em s} & Одна строка из файла \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 127
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{127                                      \{}
+\DoxyCodeLine{128   \textcolor{keywordtype}{double} coord;}
+\DoxyCodeLine{129   \textcolor{keywordtype}{int} shift;}
+\DoxyCodeLine{130   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; ++i) \{}
+\DoxyCodeLine{131     sscanf(s, \textcolor{stringliteral}{"{}\%lf\%n"{}}, \&coord, \&shift);}
+\DoxyCodeLine{132     \mbox{\hyperlink{s21__3dparser_8h_a5d8c10d1cfaf103ef73e73c8e4c425c8}{S21\_ADD\_ELEM}}(shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}, shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}}, coord);}
+\DoxyCodeLine{133     s += shift;}
+\DoxyCodeLine{134   \}}
+\DoxyCodeLine{135 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки Shape\+::count\+Vertexes, S21\+\_\+\+ADD\+\_\+\+ELEM и Shape\+::vertexes.
+
+
+
+Используется в s21\+\_\+allocate\+Shape().
+
+\mbox{\Hypertarget{s21__3dparser_8h_ab9751dd30527de6854d1589ea1520847}\label{s21__3dparser_8h_ab9751dd30527de6854d1589ea1520847}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_centring@{s21\_centring}}
+\index{s21\_centring@{s21\_centring}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_centring()}{s21\_centring()}}
+{\footnotesize\ttfamily void s21\+\_\+centring (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape }\end{DoxyParamCaption})}
+
+
+
+Преобразование координат для попадания в область 1 $<$ x, y, z $<$ -\/1. 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру фигуры \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 196
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{196                                 \{}
+\DoxyCodeLine{197   \textcolor{keywordtype}{double} minCoord[\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}] = \{shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[0], shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[1],}
+\DoxyCodeLine{198                              shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[2]\};}
+\DoxyCodeLine{199   \textcolor{keywordtype}{double} maxCoord[\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}] = \{shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[0], shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[1],}
+\DoxyCodeLine{200                              shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[2]\};}
+\DoxyCodeLine{201   \textcolor{comment}{// поиск мин и макс координат}}
+\DoxyCodeLine{202   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} i = 0; i < shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}}; ++i) \{}
+\DoxyCodeLine{203     \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[i] < minCoord[i \% 3])}
+\DoxyCodeLine{204       minCoord[i \% 3] = shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[i];}
+\DoxyCodeLine{205     \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[i] > maxCoord[i \% 3])}
+\DoxyCodeLine{206       maxCoord[i \% 3] = shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[i];}
+\DoxyCodeLine{207   \}}
+\DoxyCodeLine{208   \textcolor{comment}{// поиск центра и шкалы}}
+\DoxyCodeLine{209   \textcolor{keywordtype}{double} center[\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}], minScale = 1, maxScale = 1;}
+\DoxyCodeLine{210   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; ++i) \{}
+\DoxyCodeLine{211     center[i] = (maxCoord[i] + minCoord[i]) / 2;}
+\DoxyCodeLine{212     maxCoord[i] -\/= center[i];}
+\DoxyCodeLine{213     minCoord[i] -\/= center[i];}
+\DoxyCodeLine{214     minScale = minScale > fabs(maxCoord[i]) ? fabs(maxCoord[i]) : minScale;}
+\DoxyCodeLine{215     minScale = minScale > fabs(minCoord[i]) ? fabs(minCoord[i]) : minScale;}
+\DoxyCodeLine{216     maxScale = maxScale < fabs(maxCoord[i]) ? fabs(maxCoord[i]) : maxScale;}
+\DoxyCodeLine{217     maxScale = maxScale < fabs(minCoord[i]) ? fabs(minCoord[i]) : maxScale;}
+\DoxyCodeLine{218   \}}
+\DoxyCodeLine{219   \textcolor{comment}{// шкалирование}}
+\DoxyCodeLine{220   shape-\/>\mbox{\hyperlink{structShape_aac11a9cd9f9cdc22712033545eeba393}{scale}} = maxScale >= 1 || minScale < 1e-\/6 ? 1 / maxScale : 1 / minScale;}
+\DoxyCodeLine{221   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} i = 0; i < shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}}; ++i)}
+\DoxyCodeLine{222     shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[i] =}
+\DoxyCodeLine{223         (shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[i] -\/ center[i \% 3]) * shape-\/>\mbox{\hyperlink{structShape_aac11a9cd9f9cdc22712033545eeba393}{scale}} * 0.8;}
+\DoxyCodeLine{224   shape-\/>\mbox{\hyperlink{structShape_aac11a9cd9f9cdc22712033545eeba393}{scale}} = 1;}
+\DoxyCodeLine{225 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки COORDS, Shape\+::count\+Vertexes, Shape\+::scale и Shape\+::vertexes.
+
+
+
+Используется в s21\+\_\+init\+Shape().
+
+\mbox{\Hypertarget{s21__3dparser_8h_a4f5f31e57c657f0c59619e463bd24d41}\label{s21__3dparser_8h_a4f5f31e57c657f0c59619e463bd24d41}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_clearShape@{s21\_clearShape}}
+\index{s21\_clearShape@{s21\_clearShape}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_clearShape()}{s21\_clearShape()}}
+{\footnotesize\ttfamily void s21\+\_\+clear\+Shape (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape }\end{DoxyParamCaption})}
+
+
+
+Функция освобождения памяти 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру фигуры \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 252
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{252                                   \{}
+\DoxyCodeLine{253   \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}} != NULL) free(shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}});}
+\DoxyCodeLine{254   \textcolor{keywordflow}{if} (shape-\/>\mbox{\hyperlink{structShape_a52c67b777b004f491bf884fc816596a4}{lines}} != NULL) free(shape-\/>\mbox{\hyperlink{structShape_a52c67b777b004f491bf884fc816596a4}{lines}});}
+\DoxyCodeLine{255 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки Shape\+::lines и Shape\+::vertexes.
+
+\mbox{\Hypertarget{s21__3dparser_8h_a7482d01796984ea402cd1a0da9d56c02}\label{s21__3dparser_8h_a7482d01796984ea402cd1a0da9d56c02}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_extractFileName@{s21\_extractFileName}}
+\index{s21\_extractFileName@{s21\_extractFileName}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_extractFileName()}{s21\_extractFileName()}}
+{\footnotesize\ttfamily void s21\+\_\+extract\+File\+Name (\begin{DoxyParamCaption}\item[{const char $\ast$}]{file\+Path,  }\item[{char $\ast$}]{file\+Name }\end{DoxyParamCaption})}
+
+
+
+Добавление названия файла 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em file\+Path} & Указатель на имя файла \\
+\hline
+{\em file\+Name} & Указатель на строку для записи имени \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 96
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{96                                                                \{}
+\DoxyCodeLine{97   \textcolor{keyword}{const} \textcolor{keywordtype}{char}* lastSlash = strrchr(filePath, \textcolor{charliteral}{'/'});}
+\DoxyCodeLine{98   \textcolor{keyword}{const} \textcolor{keywordtype}{char}* lastBackslash = strrchr(filePath, \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'});}
+\DoxyCodeLine{99   \textcolor{keyword}{const} \textcolor{keywordtype}{char}* lastSeparator =}
+\DoxyCodeLine{100       lastSlash > lastBackslash ? lastSlash : lastBackslash;}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102   \textcolor{keywordflow}{if} (lastSeparator) \{}
+\DoxyCodeLine{103     strcpy(fileName, lastSeparator + 1);}
+\DoxyCodeLine{104   \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{105     strcpy(fileName, filePath);}
+\DoxyCodeLine{106   \}}
+\DoxyCodeLine{107   \textcolor{keywordtype}{char}* lastDot = strrchr(fileName, \textcolor{charliteral}{'.'});}
+\DoxyCodeLine{108   \textcolor{keywordflow}{if} (lastDot) \{}
+\DoxyCodeLine{109     *lastDot = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{110   \}}
+\DoxyCodeLine{111 \}}
+
+\end{DoxyCode}
+
+
+Используется в s21\+\_\+allocate\+Shape().
+
+\mbox{\Hypertarget{s21__3dparser_8h_aae1dcb422cf6657d7090ae22f999742c}\label{s21__3dparser_8h_aae1dcb422cf6657d7090ae22f999742c}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_initShape@{s21\_initShape}}
+\index{s21\_initShape@{s21\_initShape}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_initShape()}{s21\_initShape()}}
+{\footnotesize\ttfamily int s21\+\_\+init\+Shape (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape,  }\item[{const char $\ast$}]{file }\end{DoxyParamCaption})}
+
+
+
+Функция чтения файла объекта и инициализации структуры фигуры 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру, в которую будет записано содержимое фигуры \\
+\hline
+{\em file} & Имя файла .obj для чтения \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+int 0 -\/ успешно 
+
+int 1 -\/ ошибка 
+\end{DoxyReturn}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 65
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{65                                                   \{}
+\DoxyCodeLine{66   \textcolor{comment}{/* Проверка входных ошибок */}}
+\DoxyCodeLine{67   \textcolor{keywordflow}{if} (!shape || !file) \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69   \textcolor{keywordtype}{int} counter\_init = \mbox{\hyperlink{s21__3dparser_8c_afe98908ef44f53496cc0f5f6e7974eed}{s21\_countInit}}(shape, file);}
+\DoxyCodeLine{70   \textcolor{keywordflow}{if} (!counter\_init) counter\_init = \mbox{\hyperlink{s21__3dparser_8c_af7209abb5ad8e0e9a31497a864b6cd3c}{s21\_allocateShape}}(shape, file);}
+\DoxyCodeLine{71   \textcolor{keywordflow}{if} (counter\_init) \textcolor{keywordflow}{return} counter\_init;}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73   \mbox{\hyperlink{s21__3dparser_8c_ab9751dd30527de6854d1589ea1520847}{s21\_centring}}(shape);}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{76 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки s21\+\_\+allocate\+Shape(), s21\+\_\+centring() и s21\+\_\+count\+Init().
+
+\mbox{\Hypertarget{s21__3dparser_8h_a65f730bbda66ff8dd4549caef48f67b9}\label{s21__3dparser_8h_a65f730bbda66ff8dd4549caef48f67b9}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_readPolygon@{s21\_readPolygon}}
+\index{s21\_readPolygon@{s21\_readPolygon}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_readPolygon()}{s21\_readPolygon()}}
+{\footnotesize\ttfamily int s21\+\_\+read\+Polygon (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structFrameElement}{Frame\+Element}} $\ast$}]{elem,  }\item[{char $\ast$$\ast$}]{s,  }\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape }\end{DoxyParamCaption})}
+
+
+
+Чтение координаты вершины полигона 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em elem} & Структура, в которую будет записана координата полигона \\
+\hline
+{\em s} & Указатель на часть строки \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+int 0 -\/ успешно 
+
+int 1 -\/ ошибка 
+\end{DoxyReturn}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 163
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{163                                                                 \{}
+\DoxyCodeLine{164   \textcolor{keywordtype}{int} shift = 0;}
+\DoxyCodeLine{165   elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}} = 0;}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167   \textcolor{keywordflow}{if} (sscanf(*s, \textcolor{stringliteral}{"{}\%lld\%n"{}}, \&elem-\/>\mbox{\hyperlink{structFrameElement_aa64a3c84f8498c4be4c17911a65bbc14}{v}}, \&shift) == 1) \{}
+\DoxyCodeLine{168     \mbox{\hyperlink{s21__3dparser_8h_a564168f4e40271df5daf698f4233843f}{S21\_CHECK\_AND\_FIX}}(elem-\/>\mbox{\hyperlink{structFrameElement_aa64a3c84f8498c4be4c17911a65bbc14}{v}}, shape-\/>\mbox{\hyperlink{structShape_a525707c64b9ee23af5068e6e476f8bc9}{fflag}}, (shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}} / 3));}
+\DoxyCodeLine{169     elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}} = 4;}
+\DoxyCodeLine{170     *s += shift;}
+\DoxyCodeLine{171   \}}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{173   \textcolor{keywordflow}{if} (elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}} == 4 \&\&}
+\DoxyCodeLine{174       sscanf(*s, \textcolor{stringliteral}{"{}/\%lld/\%lld\%n"{}}, \&elem-\/>\mbox{\hyperlink{structFrameElement_a4c1c7778969913f11b76023f9214ee22}{vt}}, \&elem-\/>\mbox{\hyperlink{structFrameElement_a4deba64d49cbbf2c5b379b5cd675b2e2}{vn}}, \&shift) == 2) \{}
+\DoxyCodeLine{175     \mbox{\hyperlink{s21__3dparser_8h_a564168f4e40271df5daf698f4233843f}{S21\_CHECK\_AND\_FIX}}(elem-\/>\mbox{\hyperlink{structFrameElement_a4c1c7778969913f11b76023f9214ee22}{vt}}, shape-\/>\mbox{\hyperlink{structShape_a525707c64b9ee23af5068e6e476f8bc9}{fflag}}, (shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}} / 3));}
+\DoxyCodeLine{176     \mbox{\hyperlink{s21__3dparser_8h_a564168f4e40271df5daf698f4233843f}{S21\_CHECK\_AND\_FIX}}(elem-\/>\mbox{\hyperlink{structFrameElement_a4deba64d49cbbf2c5b379b5cd675b2e2}{vn}}, shape-\/>\mbox{\hyperlink{structShape_a525707c64b9ee23af5068e6e476f8bc9}{fflag}}, (shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}} / 3));}
+\DoxyCodeLine{177     *s += shift;}
+\DoxyCodeLine{178     elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}} = 7;}
+\DoxyCodeLine{179   \}}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181   \textcolor{keywordflow}{if} (elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}} == 4 \&\& sscanf(*s, \textcolor{stringliteral}{"{}//\%lld\%n"{}}, \&elem-\/>\mbox{\hyperlink{structFrameElement_a4deba64d49cbbf2c5b379b5cd675b2e2}{vn}}, \&shift) == 1) \{}
+\DoxyCodeLine{182     \mbox{\hyperlink{s21__3dparser_8h_a564168f4e40271df5daf698f4233843f}{S21\_CHECK\_AND\_FIX}}(elem-\/>\mbox{\hyperlink{structFrameElement_a4deba64d49cbbf2c5b379b5cd675b2e2}{vn}}, shape-\/>\mbox{\hyperlink{structShape_a525707c64b9ee23af5068e6e476f8bc9}{fflag}}, (shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}} / 3));}
+\DoxyCodeLine{183     *s += shift;}
+\DoxyCodeLine{184     elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}} = 5;}
+\DoxyCodeLine{185   \}}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187   \textcolor{keywordflow}{if} (elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}} == 4 \&\& sscanf(*s, \textcolor{stringliteral}{"{}/\%lld\%n"{}}, \&elem-\/>\mbox{\hyperlink{structFrameElement_a4c1c7778969913f11b76023f9214ee22}{vt}}, \&shift) == 1) \{}
+\DoxyCodeLine{188     \mbox{\hyperlink{s21__3dparser_8h_a564168f4e40271df5daf698f4233843f}{S21\_CHECK\_AND\_FIX}}(elem-\/>\mbox{\hyperlink{structFrameElement_a4c1c7778969913f11b76023f9214ee22}{vt}}, shape-\/>\mbox{\hyperlink{structShape_a525707c64b9ee23af5068e6e476f8bc9}{fflag}}, (shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}} / 3));}
+\DoxyCodeLine{189     *s += shift;}
+\DoxyCodeLine{190     elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}} = 6;}
+\DoxyCodeLine{191   \}}
+\DoxyCodeLine{192 }
+\DoxyCodeLine{193   \textcolor{keywordflow}{return} elem-\/>\mbox{\hyperlink{structFrameElement_a6a3d14b887053977a41926c691a86390}{mask}};}
+\DoxyCodeLine{194 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки Shape\+::count\+Vertexes, Shape\+::fflag, Frame\+Element\+::mask, S21\+\_\+\+CHECK\+\_\+\+AND\+\_\+\+FIX, Frame\+Element\+::v, Frame\+Element\+::vn и Frame\+Element\+::vt.
+
+
+
+Используется в s21\+\_\+add\+F().
+
+\mbox{\Hypertarget{s21__3dparser_8h_ad6faff44d1a8eabc06fabfc39d95a3fc}\label{s21__3dparser_8h_ad6faff44d1a8eabc06fabfc39d95a3fc}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_setScale@{s21\_setScale}}
+\index{s21\_setScale@{s21\_setScale}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_setScale()}{s21\_setScale()}}
+{\footnotesize\ttfamily int s21\+\_\+set\+Scale (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape,  }\item[{double}]{scale }\end{DoxyParamCaption})}
+
+
+
+Установка масштаба объекта 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру фигуры \\
+\hline
+{\em scale} & Масштаб фигуры \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+int 0 -\/ успешно 
+
+int 1 -\/ ошибка 
+\end{DoxyReturn}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 227
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{227                                              \{}
+\DoxyCodeLine{228   \textcolor{keywordflow}{if} (!shape) \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{229   \textcolor{keywordtype}{double} shift = scale / shape-\/>\mbox{\hyperlink{structShape_aac11a9cd9f9cdc22712033545eeba393}{scale}};}
+\DoxyCodeLine{230   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} i = 0; i < shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}}; ++i) \{}
+\DoxyCodeLine{231     shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[i] *= shift;}
+\DoxyCodeLine{232   \}}
+\DoxyCodeLine{233   shape-\/>\mbox{\hyperlink{structShape_aac11a9cd9f9cdc22712033545eeba393}{scale}} = scale;}
+\DoxyCodeLine{234   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{235 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки Shape\+::count\+Vertexes, Shape\+::scale и Shape\+::vertexes.
+
+\mbox{\Hypertarget{s21__3dparser_8h_a33c8f34e1015d84fe6953e4f279cb8d8}\label{s21__3dparser_8h_a33c8f34e1015d84fe6953e4f279cb8d8}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_shifting@{s21\_shifting}}
+\index{s21\_shifting@{s21\_shifting}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_shifting()}{s21\_shifting()}}
+{\footnotesize\ttfamily int s21\+\_\+shifting (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape,  }\item[{double}]{coord,  }\item[{\mbox{\hyperlink{s21__3dparser_8h_a9ca6c67e06e3e7fbd5a1f237b5d28ec9}{Axis}}}]{axis }\end{DoxyParamCaption})}
+
+
+
+Выполняет сдвиг вершин вдоль одной из осей 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру фигуры \\
+\hline
+{\em coord} & Число, на которое сдвигается каждая координата определенной оси \\
+\hline
+{\em axis} & Одна из трех координатных осей \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+int 0 -\/ успешно 
+
+int 1 -\/ ошибка 
+\end{DoxyReturn}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 237
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{237                                                         \{}
+\DoxyCodeLine{238   \textcolor{keywordflow}{if} (!shape || !shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}) \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240   \textcolor{keywordtype}{double} shift = coord -\/ shape-\/>\mbox{\hyperlink{structShape_a12396e0f3bba1ee2610f4496a4437258}{shifts}}[axis];}
+\DoxyCodeLine{241   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} i = 0; i < shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}}; i += 3) \{}
+\DoxyCodeLine{242     \textcolor{keywordtype}{unsigned} idx = i + axis;}
+\DoxyCodeLine{243     \textcolor{keywordflow}{if} (idx < shape-\/>countVertexes) \{}
+\DoxyCodeLine{244       shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}[idx] += shift;}
+\DoxyCodeLine{245     \}}
+\DoxyCodeLine{246   \}}
+\DoxyCodeLine{247 }
+\DoxyCodeLine{248   shape-\/>\mbox{\hyperlink{structShape_a12396e0f3bba1ee2610f4496a4437258}{shifts}}[axis] = coord;}
+\DoxyCodeLine{249   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{250 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки Shape\+::count\+Vertexes, Shape\+::shifts и Shape\+::vertexes.
+
+
+
+Используется в figure\+\_\+rotation().
+
+\mbox{\Hypertarget{s21__3dparser_8h_a73135f7a54c4e1125a4ec16fa425ebb6}\label{s21__3dparser_8h_a73135f7a54c4e1125a4ec16fa425ebb6}} 
+\index{s21\_3dparser.h@{s21\_3dparser.h}!s21\_zeroingShape@{s21\_zeroingShape}}
+\index{s21\_zeroingShape@{s21\_zeroingShape}!s21\_3dparser.h@{s21\_3dparser.h}}
+\doxysubsubsection{\texorpdfstring{s21\_zeroingShape()}{s21\_zeroingShape()}}
+{\footnotesize\ttfamily void s21\+\_\+zeroing\+Shape (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structShape}{Shape}} $\ast$}]{shape }\end{DoxyParamCaption})}
+
+
+
+Функция обнуления структуры 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em shape} & Указатель на структуру фигуры \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле s21\+\_\+3dparser.\+c строка 78
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{78                                     \{}
+\DoxyCodeLine{79   memset(shape-\/>\mbox{\hyperlink{structShape_a149d429c726fe13c36ec87708f983ea1}{modelName}}, 0, \textcolor{keyword}{sizeof}(shape-\/>\mbox{\hyperlink{structShape_a149d429c726fe13c36ec87708f983ea1}{modelName}}));}
+\DoxyCodeLine{80   memset(shape-\/>\mbox{\hyperlink{structShape_af106e50507170fc8ee19cfe722ef14e2}{fileName}}, 0, \textcolor{keyword}{sizeof}(shape-\/>\mbox{\hyperlink{structShape_af106e50507170fc8ee19cfe722ef14e2}{fileName}}));}
+\DoxyCodeLine{81   shape-\/>\mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{countLines}} = 0;}
+\DoxyCodeLine{82   shape-\/>\mbox{\hyperlink{structShape_a4dd9577e6ec9bbfc6894e3a2571efcfb}{countL}} = 0;}
+\DoxyCodeLine{83   shape-\/>\mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{countVertexes}} = 0;}
+\DoxyCodeLine{84   shape-\/>\mbox{\hyperlink{structShape_aee3f97c12151a60d2bab46e9cb990c9a}{countV}} = 0;}
+\DoxyCodeLine{85   shape-\/>\mbox{\hyperlink{structShape_a52c67b777b004f491bf884fc816596a4}{lines}} = NULL;}
+\DoxyCodeLine{86   shape-\/>\mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}} = NULL;}
+\DoxyCodeLine{87   shape-\/>\mbox{\hyperlink{structShape_a525707c64b9ee23af5068e6e476f8bc9}{fflag}} = 0;}
+\DoxyCodeLine{88   shape-\/>\mbox{\hyperlink{structShape_aac11a9cd9f9cdc22712033545eeba393}{scale}} = 1;}
+\DoxyCodeLine{89   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; ++i) \{}
+\DoxyCodeLine{90     shape-\/>\mbox{\hyperlink{structShape_a1db1b33bc9e62f5966c666d919ac72f5}{angles}}[i] = 0;}
+\DoxyCodeLine{91     shape-\/>\mbox{\hyperlink{structShape_a12396e0f3bba1ee2610f4496a4437258}{shifts}}[i] = 0;}
+\DoxyCodeLine{92     shape-\/>\mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\_translation}}[i] = 0;}
+\DoxyCodeLine{93   \}}
+\DoxyCodeLine{94 \}}
+
+\end{DoxyCode}
+
+
+Перекрестные ссылки Shape\+::absolute\+\_\+translation, Shape\+::angles, Shape\+::countL, Shape\+::count\+Lines, Shape\+::countV, Shape\+::count\+Vertexes, Shape\+::fflag, Shape\+::file\+Name, Shape\+::lines, Shape\+::model\+Name, Shape\+::scale, Shape\+::shifts и Shape\+::vertexes.
+
+
+
+Используется в s21\+\_\+count\+Init().
+

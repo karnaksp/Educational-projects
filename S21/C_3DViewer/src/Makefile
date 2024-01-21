@@ -112,3 +112,6 @@ dist:
 	cp -r frontend back  gif $(PROJECT_NAME)
 	tar cvzf $(PROJECT_NAME).tgz $(PROJECT_NAME)
 	rm -rf $(PROJECT_NAME)
+
+dvi2:
+	doxygen && open ./generated-docs/html/index.html

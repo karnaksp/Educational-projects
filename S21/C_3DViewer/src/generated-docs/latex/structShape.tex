@@ -1,0 +1,237 @@
+\hypertarget{structShape}{}\doxysection{Структура Shape}
+\label{structShape}\index{Shape@{Shape}}
+
+
+Структура для хранения элементов фигуры  
+
+
+
+
+{\ttfamily \#include $<$s21\+\_\+3dparser.\+h$>$}
+
+\doxysubsection*{Открытые атрибуты}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{structShape_a149d429c726fe13c36ec87708f983ea1}{model\+Name}} \mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}{MAX\+\_\+\+NAME\+\_\+\+LENGTH}}\mbox{]}
+\item 
+char \mbox{\hyperlink{structShape_af106e50507170fc8ee19cfe722ef14e2}{file\+Name}} \mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}{MAX\+\_\+\+NAME\+\_\+\+LENGTH}}\mbox{]}
+\item 
+unsigned \mbox{\hyperlink{structShape_aee3f97c12151a60d2bab46e9cb990c9a}{countV}}
+\item 
+unsigned \mbox{\hyperlink{structShape_a8e15d25e7651a150a86d002ad7acf775}{count\+Vertexes}}
+\item 
+double $\ast$ \mbox{\hyperlink{structShape_a31072f2ffa22be6a547e594211bb992e}{vertexes}}
+\item 
+unsigned \mbox{\hyperlink{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}{count\+Lines}}
+\item 
+unsigned \mbox{\hyperlink{structShape_a4dd9577e6ec9bbfc6894e3a2571efcfb}{countL}}
+\item 
+unsigned $\ast$ \mbox{\hyperlink{structShape_a52c67b777b004f491bf884fc816596a4}{lines}}
+\item 
+int \mbox{\hyperlink{structShape_a525707c64b9ee23af5068e6e476f8bc9}{fflag}}
+\item 
+double \mbox{\hyperlink{structShape_aac11a9cd9f9cdc22712033545eeba393}{scale}}
+\item 
+double \mbox{\hyperlink{structShape_a1db1b33bc9e62f5966c666d919ac72f5}{angles}} \mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}\mbox{]}
+\item 
+double \mbox{\hyperlink{structShape_a12396e0f3bba1ee2610f4496a4437258}{shifts}} \mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}\mbox{]}
+\item 
+double \mbox{\hyperlink{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}{absolute\+\_\+translation}} \mbox{[}3\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Структура для хранения элементов фигуры 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 54
+
+
+
+\doxysubsection{Данные класса}
+\mbox{\Hypertarget{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}\label{structShape_aeeeeb8f21c4dcdb150ae34e50849b9d5}} 
+\index{Shape@{Shape}!absolute\_translation@{absolute\_translation}}
+\index{absolute\_translation@{absolute\_translation}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{absolute\_translation}{absolute\_translation}}
+{\footnotesize\ttfamily double Shape\+::absolute\+\_\+translation\mbox{[}3\mbox{]}}
+
+
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 69
+
+
+
+Используется в figure\+\_\+rotation() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a1db1b33bc9e62f5966c666d919ac72f5}\label{structShape_a1db1b33bc9e62f5966c666d919ac72f5}} 
+\index{Shape@{Shape}!angles@{angles}}
+\index{angles@{angles}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{angles}{angles}}
+{\footnotesize\ttfamily double Shape\+::angles\mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}\mbox{]}}
+
+Углы вращения относительно трех осей 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 66
+
+
+
+Используется в s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a4dd9577e6ec9bbfc6894e3a2571efcfb}\label{structShape_a4dd9577e6ec9bbfc6894e3a2571efcfb}} 
+\index{Shape@{Shape}!countL@{countL}}
+\index{countL@{countL}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{countL}{countL}}
+{\footnotesize\ttfamily unsigned Shape\+::countL}
+
+Количество сегментов парами 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 61
+
+
+
+Используется в s21\+\_\+allocate\+Shape() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}\label{structShape_a99d9dc8bd352f3e8783e2a51b0d91d05}} 
+\index{Shape@{Shape}!countLines@{countLines}}
+\index{countLines@{countLines}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{countLines}{countLines}}
+{\footnotesize\ttfamily unsigned Shape\+::count\+Lines}
+
+Количество ребер 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 60
+
+
+
+Используется в s21\+\_\+add\+F(), s21\+\_\+allocate\+Shape() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_aee3f97c12151a60d2bab46e9cb990c9a}\label{structShape_aee3f97c12151a60d2bab46e9cb990c9a}} 
+\index{Shape@{Shape}!countV@{countV}}
+\index{countV@{countV}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{countV}{countV}}
+{\footnotesize\ttfamily unsigned Shape\+::countV}
+
+Количество вершин 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 57
+
+
+
+Используется в s21\+\_\+allocate\+Shape() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a8e15d25e7651a150a86d002ad7acf775}\label{structShape_a8e15d25e7651a150a86d002ad7acf775}} 
+\index{Shape@{Shape}!countVertexes@{countVertexes}}
+\index{countVertexes@{countVertexes}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{countVertexes}{countVertexes}}
+{\footnotesize\ttfamily unsigned Shape\+::count\+Vertexes}
+
+Количество координат вершин 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 58
+
+
+
+Используется в figure\+\_\+rotation(), s21\+\_\+add\+V(), s21\+\_\+allocate\+Shape(), s21\+\_\+centring(), s21\+\_\+count\+Init(), s21\+\_\+read\+Polygon(), s21\+\_\+set\+Scale(), s21\+\_\+shifting() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a525707c64b9ee23af5068e6e476f8bc9}\label{structShape_a525707c64b9ee23af5068e6e476f8bc9}} 
+\index{Shape@{Shape}!fflag@{fflag}}
+\index{fflag@{fflag}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{fflag}{fflag}}
+{\footnotesize\ttfamily int Shape\+::fflag}
+
+Индикатор отрицательных индексов. 0 индексов нет, 1 -\/ есть хотя бы 1 отрицательный индекс 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 63
+
+
+
+Используется в s21\+\_\+count\+Init(), s21\+\_\+read\+Polygon() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_af106e50507170fc8ee19cfe722ef14e2}\label{structShape_af106e50507170fc8ee19cfe722ef14e2}} 
+\index{Shape@{Shape}!fileName@{fileName}}
+\index{fileName@{fileName}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{fileName}{fileName}}
+{\footnotesize\ttfamily char Shape\+::file\+Name\mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}{MAX\+\_\+\+NAME\+\_\+\+LENGTH}}\mbox{]}}
+
+Имя файла 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 56
+
+
+
+Используется в s21\+\_\+allocate\+Shape() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a52c67b777b004f491bf884fc816596a4}\label{structShape_a52c67b777b004f491bf884fc816596a4}} 
+\index{Shape@{Shape}!lines@{lines}}
+\index{lines@{lines}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{lines}{lines}}
+{\footnotesize\ttfamily unsigned$\ast$ Shape\+::lines}
+
+Массив ребер, где сегменты идут парами 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 62
+
+
+
+Используется в s21\+\_\+add\+F(), s21\+\_\+allocate\+Shape(), s21\+\_\+clear\+Shape() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a149d429c726fe13c36ec87708f983ea1}\label{structShape_a149d429c726fe13c36ec87708f983ea1}} 
+\index{Shape@{Shape}!modelName@{modelName}}
+\index{modelName@{modelName}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{modelName}{modelName}}
+{\footnotesize\ttfamily char Shape\+::model\+Name\mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a0c397a708cec89c74029582574516b30}{MAX\+\_\+\+NAME\+\_\+\+LENGTH}}\mbox{]}}
+
+Имя модели 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 55
+
+
+
+Используется в s21\+\_\+add\+Name\+File(), s21\+\_\+allocate\+Shape() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_aac11a9cd9f9cdc22712033545eeba393}\label{structShape_aac11a9cd9f9cdc22712033545eeba393}} 
+\index{Shape@{Shape}!scale@{scale}}
+\index{scale@{scale}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{scale}{scale}}
+{\footnotesize\ttfamily double Shape\+::scale}
+
+Масштаб фигуры 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 65
+
+
+
+Используется в figure\+\_\+rotation(), s21\+\_\+centring(), s21\+\_\+set\+Scale() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a12396e0f3bba1ee2610f4496a4437258}\label{structShape_a12396e0f3bba1ee2610f4496a4437258}} 
+\index{Shape@{Shape}!shifts@{shifts}}
+\index{shifts@{shifts}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{shifts}{shifts}}
+{\footnotesize\ttfamily double Shape\+::shifts\mbox{[}\mbox{\hyperlink{s21__3dparser_8h_a7de941c889a7c7743bc25ea6e5250b31}{COORDS}}\mbox{]}}
+
+Сдвиг по трем координатным осям 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 67
+
+
+
+Используется в s21\+\_\+shifting() и s21\+\_\+zeroing\+Shape().
+
+\mbox{\Hypertarget{structShape_a31072f2ffa22be6a547e594211bb992e}\label{structShape_a31072f2ffa22be6a547e594211bb992e}} 
+\index{Shape@{Shape}!vertexes@{vertexes}}
+\index{vertexes@{vertexes}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{vertexes}{vertexes}}
+{\footnotesize\ttfamily double$\ast$ Shape\+::vertexes}
+
+Массив координат вершин фигуры 
+
+См. определение в файле s21\+\_\+3dparser.\+h строка 59
+
+
+
+Используется в figure\+\_\+rotation(), s21\+\_\+add\+F(), s21\+\_\+add\+V(), s21\+\_\+allocate\+Shape(), s21\+\_\+centring(), s21\+\_\+clear\+Shape(), s21\+\_\+set\+Scale(), s21\+\_\+shifting() и s21\+\_\+zeroing\+Shape().
+
+
+
+Объявления и описания членов структуры находятся в файле\+:\begin{DoxyCompactItemize}
+\item 
+back/\mbox{\hyperlink{s21__3dparser_8h}{s21\+\_\+3dparser.\+h}}\end{DoxyCompactItemize}
