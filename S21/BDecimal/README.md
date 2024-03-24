@@ -1,6 +1,6 @@
 # decimal
 
-![s21_decimal](meme/stock.mp4)
+<video>https://www.youtube.com/shorts/e2-PMV7IJYY</video>
 
 Планета Земля, 90 годы. Инвесторы пытаются предсказать вдижение рынка, используя обычный IEEE 754 (float). 
 
