@@ -1,8 +1,6 @@
 # decimal
 
-<video width="480" height="720" controls>
-  <source src="vid/video.mp4" type="video/mp4">
-</video>
+https://www.youtube.com/shorts/e2-PMV7IJYY
 
 Планета Земля, 90 годы. Инвесторы пытаются предсказать вдижение рынка, используя обычный IEEE 754 (float). 
 
