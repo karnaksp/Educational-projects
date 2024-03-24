@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>depozit_calc</class>
+ <widget class="QDialog" name="depozit_calc">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1028</width>
+    <height>404</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Depozit_Calc</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+	background-color: rgb(22, 29, 39);
+	color: rgb(68, 235, 153); /* Цвет текста */</string>
+  </property>
+  <widget class="QLabel" name="label_sum">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	background-color: rgb(22, 29, 39);
+    border-left: 3px solid rgb(123, 27, 209);
+	color: rgb(68, 235, 153); 
+}</string>
+   </property>
+   <property name="text">
+    <string>  Deposit amount:</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>386</x>
+     <y>0</y>
+     <width>20</width>
+     <height>401</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">Line{
+    background-color: rgb(123, 27, 209);
+}</string>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_sum_depozit">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>18</y>
+     <width>211</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 27, 209);</string>
+   </property>
+   <property name="minimum">
+    <double>1.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>1000000000000001.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>10000.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_term">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	background-color: rgb(22, 29, 39);
+    border-left: 3px solid rgb(123, 27, 209);
+	color: rgb(68, 235, 153); 
+}</string>
+   </property>
+   <property name="text">
+    <string>  Deposit term:</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox_term">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>58</y>
+     <width>61</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 27, 209);</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>1000000000</number>
+   </property>
+   <property name="value">
+    <number>1</number>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_term">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>58</y>
+     <width>101</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Month</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Year</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_Interest_rate">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>151</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	background-color: rgb(22, 29, 39);
+    border-left: 3px solid rgb(123, 27, 209);
+	color: rgb(68, 235, 153); 
+}</string>
+   </property>
+   <property name="text">
+    <string>  Interest rate:</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_interest_rate">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>96</y>
+     <width>91</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 27, 209);</string>
+   </property>
+   <property name="minimum">
+    <double>0.010000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>100000000000000004188152556421145795899143386664033828314342771180699648.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>2.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_Interest_rate_2">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>100</y>
+     <width>21</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>%</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_tax_rate">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>151</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	background-color: rgb(22, 29, 39);
+    border-left: 3px solid rgb(123, 27, 209);
+	color: rgb(68, 235, 153); 
+}</string>
+   </property>
+   <property name="text">
+    <string>  Tax rate:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_tax_rate_2">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>140</y>
+     <width>21</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>%</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_tax_rate">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>136</y>
+     <width>91</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 27, 209);</string>
+   </property>
+   <property name="minimum">
+    <double>0.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>100000000000000004188152556421145795899143386664033828314342771180699648.000000000000000</double>
+   </property>
+   <property name="stepType">
+    <enum>QAbstractSpinBox::DefaultStepType</enum>
+   </property>
+   <property name="value">
+    <double>0.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_replenishment_date">
+   <property name="geometry">
+    <rect>
+     <x>138</x>
+     <y>250</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+  color: rgb(67, 235, 153); /* Цвет текста */
+  border: 1px solid rgb(123, 27, 209); /* Цвет рамки */
+}
+</string>
+   </property>
+   <property name="text">
+    <string>1.01.2023</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_withdrawal_date">
+   <property name="geometry">
+    <rect>
+     <x>138</x>
+     <y>310</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+  color: rgb(67, 235, 153); /* Цвет текста */
+  border: 1px solid rgb(123, 27, 209); /* Цвет рамки */
+}
+</string>
+   </property>
+   <property name="text">
+    <string>1.01.2024</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_replenishment_amount">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>250</y>
+     <width>114</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 27, 209);</string>
+   </property>
+   <property name="prefix">
+    <string>₽</string>
+   </property>
+   <property name="maximum">
+    <double>9999900.000000000000000</double>
+   </property>
+   <property name="singleStep">
+    <double>100.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>0.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_withdrawal_amount">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>310</y>
+     <width>114</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 27, 209);</string>
+   </property>
+   <property name="prefix">
+    <string>₽</string>
+   </property>
+   <property name="maximum">
+    <double>9999900.000000000000000</double>
+   </property>
+   <property name="singleStep">
+    <double>100.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>0.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_add_replenishment">
+   <property name="geometry">
+    <rect>
+     <x>193</x>
+     <y>280</y>
+     <width>181</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Add replenishment</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_add_withdrawal">
+   <property name="geometry">
+    <rect>
+     <x>193</x>
+     <y>340</y>
+     <width>181</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Add withdrawal</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_replenishment_type">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>250</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>One-time</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Month</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Year</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_capitalization">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>221</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QCheckBox {
+  color: rgb(67, 235, 153); /* Цвет текста */
+  border: 1px solid rgb(123, 27, 209); /* Цвет рамки */
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Interest capitalization</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_frequency">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>185</y>
+     <width>181</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	background-color: rgb(22, 29, 39);
+    border-left: 3px solid rgb(123, 27, 209);
+	color: rgb(68, 235, 153); 
+}</string>
+   </property>
+   <property name="text">
+    <string>  Frequency of payments:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_frequency">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>180</y>
+     <width>111</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Month</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Year</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_replenishment">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>262</y>
+     <width>201</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	background-color: rgb(22, 29, 39);
+    border-left: 3px solid rgb(123, 27, 209);
+	color: rgb(68, 235, 153); 
+}</string>
+   </property>
+   <property name="text">
+    <string>  Monthly replenishment:</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_replenishment">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>260</y>
+     <width>161</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 27, 209);</string>
+   </property>
+   <property name="minimum">
+    <double>0.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>1000000000000001.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>0.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_replenishment_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>302</y>
+     <width>201</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	background-color: rgb(22, 29, 39);
+    border-left: 3px solid rgb(123, 27, 209);
+	color: rgb(68, 235, 153); 
+}</string>
+   </property>
+   <property name="text">
+    <string>  Monthly withdrawal:</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_withdrawal">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>300</y>
+     <width>161</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 27, 209);</string>
+   </property>
+   <property name="minimum">
+    <double>0.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>1000000000000001.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>0.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>350</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+  
+	font: 12pt &quot;Sans Serif&quot;;
+  background-color: rgb(123,27,209);
+  border: 1px solid gray;
+}
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Calculate</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_Interest">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>30</y>
+     <width>111</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Interest charges:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_Interest_total">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>30</y>
+     <width>111</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>0.0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_tax">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>30</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sum of taxa:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_tax_total">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>30</y>
+     <width>151</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>0.0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_end_balance">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>350</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Total deposit amount:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_total_balance">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>350</y>
+     <width>421</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>0.0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>370</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>(by the end of the term)</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>-85</x>
+     <y>1</y>
+     <width>1111</width>
+     <height>401</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTableView{
+	background-image: url(:/img/ba.PNG);
+	background-color: rgb(22, 29, 39);
+border: 1px solid rgb(22, 29, 39); /* Цвет рамки */
+}</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_withdrawal_type">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>310</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>One-time</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Month</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Year</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget_schedule">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>70</y>
+     <width>571</width>
+     <height>251</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>doubleSpinBox_withdrawal</zorder>
+  <zorder>doubleSpinBox_replenishment</zorder>
+  <zorder>label_replenishment</zorder>
+  <zorder>label_replenishment_2</zorder>
+  <zorder>tableView</zorder>
+  <zorder>label_sum</zorder>
+  <zorder>line</zorder>
+  <zorder>doubleSpinBox_sum_depozit</zorder>
+  <zorder>label_term</zorder>
+  <zorder>spinBox_term</zorder>
+  <zorder>comboBox_term</zorder>
+  <zorder>label_Interest_rate</zorder>
+  <zorder>doubleSpinBox_interest_rate</zorder>
+  <zorder>label_Interest_rate_2</zorder>
+  <zorder>label_tax_rate</zorder>
+  <zorder>label_tax_rate_2</zorder>
+  <zorder>doubleSpinBox_tax_rate</zorder>
+  <zorder>checkBox_capitalization</zorder>
+  <zorder>label_frequency</zorder>
+  <zorder>comboBox_frequency</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>label_Interest</zorder>
+  <zorder>label_Interest_total</zorder>
+  <zorder>label_tax</zorder>
+  <zorder>label_tax_total</zorder>
+  <zorder>label_end_balance</zorder>
+  <zorder>label_total_balance</zorder>
+  <zorder>label</zorder>
+  <zorder>comboBox_replenishment_type</zorder>
+  <zorder>pushButton_add_replenishment</zorder>
+  <zorder>doubleSpinBox_withdrawal_amount</zorder>
+  <zorder>pushButton_add_withdrawal</zorder>
+  <zorder>doubleSpinBox_replenishment_amount</zorder>
+  <zorder>lineEdit_withdrawal_date</zorder>
+  <zorder>lineEdit_replenishment_date</zorder>
+  <zorder>comboBox_withdrawal_type</zorder>
+  <zorder>tableWidget_schedule</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,53 @@
+-- Session 1
+SELECT CURRENT_TIMESTAMP;
+
+SHOW TRANSACTION ISOLATION LEVEL;
+
+BEGIN;
+
+-- Session 2
+SELECT CURRENT_TIMESTAMP;
+
+SHOW TRANSACTION ISOLATION LEVEL;
+
+BEGIN;
+
+-- Session 1
+SELECT CURRENT_TIMESTAMP;
+
+SELECT * FROM pizzeria WHERE name = 'Pizza Hut';
+
+-- Session 2
+SELECT CURRENT_TIMESTAMP;
+
+SELECT * FROM pizzeria WHERE name = 'Pizza Hut';
+
+-- Session 1
+SELECT CURRENT_TIMESTAMP;
+
+UPDATE pizzeria SET rating = 4 WHERE name = 'Pizza Hut';
+
+-- Session 2
+SELECT CURRENT_TIMESTAMP;
+
+UPDATE pizzeria SET rating = 3.6 WHERE name = 'Pizza Hut';
+
+-- Session 1
+SELECT CURRENT_TIMESTAMP;
+
+COMMIT;
+
+-- Session 2
+SELECT CURRENT_TIMESTAMP;
+
+COMMIT;
+
+-- Session 1
+SELECT CURRENT_TIMESTAMP;
+
+SELECT * FROM pizzeria WHERE name = 'Pizza Hut';
+
+-- Session 2
+SELECT CURRENT_TIMESTAMP;
+
+SELECT * FROM pizzeria WHERE name = 'Pizza Hut';

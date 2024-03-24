@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>img/plot.PNG</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>img/back.png</file>
+        <file>img/back_c.png</file>
+        <file>img/back_d1.png</file>
+        <file>img/window.PNG</file>
+        <file>img/w.PNG</file>
+        <file>img/b.PNG</file>
+        <file>img/bb.PNG</file>
+        <file>img/ba.PNG</file>
+        <file>img/db.PNG</file>
+    </qresource>
+</RCC>
