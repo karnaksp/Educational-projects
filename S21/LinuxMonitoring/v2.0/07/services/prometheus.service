@@ -1,0 +1,14 @@
+[Unit]
+Description=prometheus
+
+[Service]
+User=prometheus
+Group=prometheus
+Restart=always
+ExecStart=/usr/local/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/data \
+  --web.listen-address=0.0.0.0:9090 \
+
+[Install]
+WantedBy=multi-user.target

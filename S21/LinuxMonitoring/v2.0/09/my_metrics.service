@@ -1,0 +1,11 @@
+[Unit]
+Description=my_metrics
+
+[Service]
+User=root
+Restart=always
+WorkingDirectory=/home/weaveryu/src/09
+ExecStart=/home/weaveryu/src/09/main.sh
+
+[Install]
+WantedBy=multi-user.target
