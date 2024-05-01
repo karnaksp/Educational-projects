@@ -7,7 +7,9 @@
 
 ## Реализация
 
-Необходимо реализовать программу SmartCalc v1.0:
+Необходимо было реализовать программу SmartCalc v1.0:
+
+![01 05 2024_18 02 10_REC-ezgif com-video-to-gif-converter](https://github.com/karnaksp/Educational-projects/assets/109888488/4de9cc64-ddfc-4f75-ab12-b60eb7a6aa5f)
 
 - Программа разработана на языке Си стандарта C11 с использованием компилятора gcc. Использование дополнительных библиотек и модулей QT
 - Сборка программы настроена с помощью Makefile со стандартным набором целей для GNU-программ: all, install, uninstall, clean, dvi, dist, test, gcov_report
