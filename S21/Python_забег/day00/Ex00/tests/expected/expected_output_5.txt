@@ -1,0 +1,2 @@
+Usage: python3 blocks.py <number of lines>
+Error: Invalid number of arguments

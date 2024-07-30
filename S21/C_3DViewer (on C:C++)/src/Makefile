@@ -47,8 +47,8 @@ clean: uninstall
 
 install:
 	@echo "\033[34m===>    Installation has started     <===\033[0m"
-	cd $(WORK_DIR) && exec qmake $(WORK_DIR).pro
-	cd $(WORK_DIR) && exec make  &  \
+	@cd $(WORK_DIR) && exec qmake $(WORK_DIR).pro > /dev/null 2>&1
+	@cd $(WORK_DIR) && exec make > /dev/null 2>&1 &  \
 	pid=$$!; \
 	while ps -p $$pid > /dev/null; do \
 		echo -n "."; \

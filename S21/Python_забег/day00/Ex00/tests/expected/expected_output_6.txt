@@ -1,0 +1,2 @@
+Please provide a valid number for <number of lines>
+Error: Invalid number of lines argument
