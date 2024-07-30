@@ -1,0 +1,2 @@
+Number out of range: -20087378
+Input must be -100000 < x < 100000

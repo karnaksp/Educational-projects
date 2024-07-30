@@ -1,0 +1,4 @@
+Mean: 3.00
+Median: 3.00
+Mode: 1
+SD: 1.41
