@@ -1,0 +1,1 @@
+PUBLISH_CHANEL:str = 'bad-guys'
