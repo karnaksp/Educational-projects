@@ -6,15 +6,15 @@ class Transaction(object):
     Class for managing transactions.
     """
 
-    def __init__(self, sender: int, reciver: int, amount: float):
+    def __init__(self, sender: str, reciver: str, amount: float):
         """
         Initialize a new transaction.
 
         Parameters
         ----------
-        sender : int
+        sender : str
             The sender of the transaction.
-        reciver : int
+        reciver : str
             The recipient of the transaction.
         amount : float
             The amount of the transaction.

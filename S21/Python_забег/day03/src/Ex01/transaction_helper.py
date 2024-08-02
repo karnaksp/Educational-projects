@@ -1,6 +1,11 @@
-from transaction import Transaction
-from typing import *
 import json
+import logging
+from typing import *
+
+from transaction import Transaction
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
+logger = logging.getLogger()
 
 
 def is_valid_account_number(account_number: str) -> bool:
@@ -81,7 +86,8 @@ def valid_transaction(sender: str, reciver: str, amount: str) -> bool:
     )
 
 
-def create_transaction(sender: str, reciver: str, amount: str) -> Optional[Transaction]:
+def create_transaction(sender: str, reciver: str,
+                       amount: str) -> Optional[Transaction]:
     """
     Create a new transaction.
 
@@ -102,7 +108,7 @@ def create_transaction(sender: str, reciver: str, amount: str) -> Optional[Trans
     """
     if not valid_transaction(sender, reciver, amount):
         return None
-    return Transaction(int(sender), int(reciver), float(amount))
+    return Transaction(str(sender), str(reciver), float(amount))
 
 
 def interview_transaction() -> Transaction:
@@ -114,7 +120,7 @@ def interview_transaction() -> Transaction:
     Transaction
         A new Transaction object created from the user's input.
     """
-    print("Enter transaction details:")
+    print("Enter transaction details below.")
     sender: str = input("Sender account (10 digits):  ")
     reciver: str = input("Receiver account (10 digits): ")
     amount: str = input("Amount: ")
@@ -135,7 +141,19 @@ def decode_transaction(msg: bytes) -> Optional[Transaction]:
     Optional[Transaction]
         A new Transaction object if the message is valid, None otherwise.
     """
-    obj: Dict[str, Union[int, float]] = json.loads(msg)
-    if "sender" in obj and "reciver" in obj and "amount" in obj:
-        return Transaction(obj["sender"], obj["reciver"], obj["amount"])
+    try:
+        msg_str = msg.decode("utf-8")
+        # logger.info(f"Received message: {msg_str}")
+        obj: Dict[str, Union[int, float]] = json.loads(msg_str)
+        if (
+            "metadata" in obj
+            and "from" in obj["metadata"]
+            and "to" in obj["metadata"]
+            and "amount" in obj
+        ):
+            return Transaction(
+                obj["metadata"]["from"], obj["metadata"]["to"], obj["amount"]
+            )
+    except (json.JSONDecodeError, KeyError, TypeError) as e:
+        logger.error(f"Failed to decode transaction: {e}")
     return None

@@ -1,9 +1,15 @@
-import redis
-import logging
+"""
+Exercise 03_01
+"""
+
 import argparse
-from typing import *
+import signal
+import sys
+from typing import List
+
+import redis
 from transaction import Transaction
-from transaction_helper import decode_transaction
+from transaction_helper import *
 
 
 def try_handle_evil(transaction: Transaction, evil: List[int]) -> Transaction:
@@ -22,18 +28,17 @@ def try_handle_evil(transaction: Transaction, evil: List[int]) -> Transaction:
     Transaction
         The potentially modified transaction.
     """
-    if not transaction.amount < 0 and transaction.reciver in evil:
-        return Transaction(
-            reciver=transaction.reciver,
-            sender=transaction.sender,
-            amount=transaction.amount,
+    if transaction.reciver in evil and transaction.amount >= 0:
+        transaction.sender, transaction.reciver = (
+            transaction.reciver,
+            transaction.sender,
         )
     return transaction
 
 
 def consumer(evil: List[int]) -> None:
     """
-    Consumes transactions from Redis pubsub channel and handles transactions involving evil accounts.
+    Consumes transactions from Redis pubsub and handles transactions involving evil accounts.
 
     Parameters
     ----------
@@ -48,22 +53,22 @@ def consumer(evil: List[int]) -> None:
     p: redis.client.PubSub = r.pubsub()
     p.subscribe("bad-guys")
 
-    logger: logging.Logger = logging.getLogger()
-    while p.get_message():
-        pass
+    def signal_handler(sig, frame):
+        print("Exiting gracefully...")
+        p.unsubscribe()
+        r.close()
+        sys.exit(0)
 
-    while True:
-        msg: Optional[Dict[str, Union[str, bytes]]] = p.get_message()
-        if msg is None:
-            continue
+    signal.signal(signal.SIGINT, signal_handler)
 
-        if isinstance(msg["data"], (bytes)):
-            transaction: Optional[Transaction] = decode_transaction(msg["data"])
-            if transaction is None:
-                continue
+    print("Starting consumer: ")
 
-            transaction = try_handle_evil(transaction, evil)
-            logger.warning(str(transaction))
+    for msg in p.listen():
+        if msg["type"] == "message":
+            transaction: Transaction | None = decode_transaction(msg["data"])
+            if transaction:
+                transaction = try_handle_evil(transaction, evil)
+                logger.warning(str(transaction))
 
 
 if __name__ == "__main__":
@@ -73,7 +78,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.evil != None and (
+    if args.evil is not None and (
         not args.evil.replace(",", "").isnumeric()
         or not all(len(e) == 10 for e in args.evil.split(","))
     ):
@@ -82,8 +87,7 @@ if __name__ == "__main__":
         exit()
 
     evil = []
-    if args.evil != None:
-        evil = [int(e) for e in args.evil.split(",")]
+    if args.evil is not None:
+        evil = [str(e) for e in args.evil.split(",")]
 
-    print("Starting consumer: ")
     consumer(evil)

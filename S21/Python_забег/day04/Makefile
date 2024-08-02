@@ -9,11 +9,15 @@ all: cat clean Ex00 Ex01 Ex02
 
 Ex00:
 	@./cat.sh "Running Ex00..." 10
-	@cd Ex00 && python3 exploit.py
+	@cd Ex00 && python3 energy.py
+
+Ex01:
+	@./cat.sh "Running Ex01..." 10
+	@cd Ex02 && python3 persinality.py
 
 Ex02:
 	@./cat.sh "Running Ex02..." 10
-	@cd Ex02 && python3 gen_ansible.py -s ../../
+	@cd Ex02 && python3 pressure.py
 
 cat:
 	@chmod +x cat.sh
@@ -37,7 +41,7 @@ get_req:
 install_dep:
 	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 	python3 get-pip.py
-	pip install pipreqs isort pylint autopep8 pytest-cov redis ansible
+	pip install pipreqs isort pylint autopep8 pytest-cov
 
 install_req:
 	pip install -r $(REQUIREMENTS_FILE)

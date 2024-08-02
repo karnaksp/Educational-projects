@@ -1,66 +1,105 @@
+"""
+Exercise 03_02
+"""
+
 import argparse
 import glob
+import os
+from typing import Dict, List, Optional, Union
+
 import yaml
 
-def get_filename_recursive(directory, filename):
-    files = glob.glob('{0}/**/{1}'.format(directory, filename), recursive=True)
-    return files[0] if len(files) > 0 else None
 
-def generate_ansible(src_root_directory, dest_directory):
-    with open('../../materials/todo.yml') as stream:
+def remove_first_line_dash(file_path: str) -> None:
+    """
+    Remove the first line of a file if it starts with "- ".
+    """
+    with open(file_path, "r") as file:
+        lines: List[str] = file.readlines()
 
-        todo = yaml.safe_load(stream)
-        deploy = [{
-            'name': 'Deploy evilcorp exploit',
-            'hosts': 'myhosts',
-            'tasks': [{
-                'name': 'update aptitude repositories',
-                'ansible.builtin.shell': 'apt-get update'
-            }]
-        }]
+    if lines and lines[0].startswith("- "):
+        lines[0] = lines[0][2:]
 
-        for package_name in todo['server']['install_packages']:
-            ansible_install_package_task = {
-                'name': 'install package {0}'.format(package_name),
-                'ansible.builtin.shell': 'yes | apt-get install {0}'.format(package_name)
-            }
-            deploy[0]['tasks'].append(ansible_install_package_task)
+    with open(file_path, "w") as file:
+        file.writelines(lines)
 
-        for file_name in todo['server']['exploit_files']:
-            file_full_path = get_filename_recursive(src_root_directory, file_name)
-            if (file_full_path == None):
-                raise FileNotFoundError('No file "{0}" found in directory {1}'.format(file_name, src_root_directory))
-            ansible_copy_file_task = {
-                'name': 'copy file {0}'.format(file_name.split('/')[-1]),
-                'ansible.builtin.copy': {
-                    'src': file_full_path,
-                    'dest': '{0}/{1}'.format(dest_directory, file_name.split('/')[-1])
-                }
-            }
-            deploy[0]['tasks'].append(ansible_copy_file_task)
 
-        for shell_command in todo['server']['start_service_commands']:
-            ansible_shell_command_task = {
-                'name': 'run command {0}'.format(shell_command),
-                'ansible.builtin.shell': shell_command
-            }
-            deploy[0]['tasks'].append(ansible_shell_command_task)
+def get_filename_recursive(directory: str, filename: str) -> Optional[str]:
+    """
+    Find the full path of a file recursively in a directory.
+    """
+    files = glob.glob(os.path.join(directory, "**", filename), recursive=True)
+    return files[0] if files else None
 
-        ansible_run_python_app_task = {
-            'name': 'run python pub/sub transactions consumer',
-            'ansible.builtin.shell': 'nohup python3 {0}/consumer.py -e {1} &'.format(dest_directory, ','.join(todo['bad_guys']))
+
+def generate_ansible(src_root_directory: str, dest_directory: str) -> None:
+    """
+    Generate the Ansible playbook based on the todo.yml configuration.
+    """
+    todo_file_path: str = os.path.join(
+        src_root_directory, "materials/todo.yml")
+    if not os.path.exists(todo_file_path):
+        raise FileNotFoundError(f"'{todo_file_path}' does not exist.")
+    with open(todo_file_path, "r") as stream:
+        todo: Dict[str, Union[str, List[str]]] = yaml.safe_load(stream)
+
+    deploy: List[Dict[str, Union[str, List[Dict[str, Union[str, Dict[str, str]]]]]]] = [
+        {"name": "Deploy Evil Corp Exploit", "hosts": "myhosts", "tasks": []}
+    ]
+    deploy[0]["tasks"].append(
+        {
+            "name": "Update package repositories",
+            "ansible.builtin.apt": {"update_cache": True},
         }
-        deploy[0]['tasks'].append(ansible_run_python_app_task)
+    )
+    for package_name in todo.get("server", {}).get("install_packages", []):
+        deploy[0]["tasks"].append(
+            {
+                "name": f"Install package {package_name}",
+                "ansible.builtin.apt": {"name": package_name, "state": "present"},
+            }
+        )
+    for file_name in todo.get("server", {}).get("exploit_files", []):
+        file_full_path: Optional[str] = get_filename_recursive(
+            src_root_directory, file_name
+        )
+        if file_full_path is None:
+            raise FileNotFoundError(
+                f'No file "{file_name}" found in directory {src_root_directory}'
+            )
+        deploy[0]["tasks"].append(
+            {
+                "name": f"Copy file {os.path.basename(file_name)}",
+                "ansible.builtin.copy": {
+                    "src": file_full_path,
+                    "dest": os.path.join(dest_directory, os.path.basename(file_name)),
+                },
+            }
+        )
+    bad_guys: str = ",".join(todo.get("bad_guys", []))
+    deploy[0]["tasks"].append(
+        {
+            "name": "Run Python pub/sub transactions consumer",
+            "ansible.builtin.shell": f'python3 {os.path.join(dest_directory, "consumer.py")} -e {bad_guys}',
+        }
+    )
+    with open("../../materials/deploy.yml", "w", encoding="utf8") as output:
+        yaml.dump(deploy, output, default_flow_style=False)
+    remove_first_line_dash("../../materials/deploy.yml")
 
-        with open('deploy.yml', 'w', encoding='utf8') as output:
-            yaml.dump(deploy, output, default_flow_style=False)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-s", "--source", help="source directory", default='.', type=str)
-    parser.add_argument("-d", "--destination", help="destination directory", default='~', type=str)
+    parser = argparse.ArgumentParser(
+        description="Generate Ansible playbook from todo.yml"
+    )
+    parser.add_argument(
+        "-s", "--source", help="Source directory", default=".", type=str
+    )
+    parser.add_argument(
+        "-d", "--destination", help="Destination directory", default="~", type=str
+    )
     args = parser.parse_args()
     try:
-        generate_ansible(args.source, args.destination)
-    except Exception as inst:
-        print(inst)
+        generate_ansible(args.source, os.path.expanduser(args.destination))
+    except Exception as e:
+        print(f"Error: {e}")
