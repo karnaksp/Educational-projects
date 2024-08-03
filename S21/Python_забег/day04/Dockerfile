@@ -13,7 +13,6 @@ RUN apt-get update && \
 
 RUN make cat && \
     make install_dep && \
-    make get_req && \
     make install_req
 
 CMD ["bash", "-c", "make"]

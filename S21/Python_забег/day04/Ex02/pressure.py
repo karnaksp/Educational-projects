@@ -1,35 +1,40 @@
-from random import randint
-import sys
-import time
-import argparse
+import random
+from typing import Generator, Optional
 
 
-def emit_gel(max_step):
-    step = randint(0, max_step) if max_step > 0 else 0
-    pressure = 0
+def emit_gel(max_step: int) -> Generator[int, Optional[int], None]:
+    """
+    Generator function that emits a random pressure value within a given range.
+    """
+    pressure = random.randint(0, 100)
+    step = random.randint(0, max_step) if max_step > 0 else 0
+    print(f"Choose step: {step}")
     while True:
-        reset = yield pressure
-        if reset is not None:
-            if (reset > 80 and step > 0) or (reset < 20 and step < 0):
-                step = -step
-        else:
-            pressure += step
-
-        if pressure > 100:
-            pressure = 100
-        elif pressure < 0:
-            pressure = 0
+        try:
+            reset = yield pressure
+            if reset is not None:
+                if (pressure > 80 and step > 0) or (pressure < 20 and step < 0):
+                    step = -step
+        except GeneratorExit:
+            break
+        pressure += step
+        pressure = max(0, min(100, pressure))
 
 
-def valve(max_step):
+def valve(max_step: int) -> Generator[int, None, None]:
+    """
+    Control the pressure within the operating range.
+    """
     gel = emit_gel(max_step)
     begin = True
     while True:
         try:
-            pressure = next(gel)
+            pressure: int = next(gel)
         except StopIteration:
             break
+
         yield pressure
+
         if begin:
             if pressure > 9:
                 begin = False
@@ -37,18 +42,6 @@ def valve(max_step):
                     gel.send(pressure)
         elif pressure > 90 or pressure < 10:
             gel.close()
+            break
         elif pressure > 80 or pressure < 20:
             gel.send(pressure)
-
-
-if __name__ == "__main__":
-    parcer = argparse.ArgumentParser(
-        description=
-        "Set max step for random generator and start valve generator")
-    parcer.add_argument('s', default=30, nargs='?', type=int, help="max step")
-    max_step = parcer.parse_args().s
-    for p in valve(max_step):
-        time.sleep(0.1)
-        print(p, end=' ')
-        sys.stdout.flush()
-    print()

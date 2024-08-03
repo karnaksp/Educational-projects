@@ -1,54 +1,56 @@
-from random import randint
+import random
+from typing import Generator, List, Tuple, Type
 
 
-def turrets_generator():
+def random_by_total(total: int = 100, count: int = 5) -> Tuple[int, ...]:
+    """
+    Generates random values,
+    with their sum equal to total.
+    """
+    if total <= 0 or count <= 0:
+        raise ValueError(
+            "Total must be greater than 0 and count must be greater than 0"
+        )
+    if total <= count:
+        raise ValueError("Total is too small for the given count")
+    remaining: int = total
+    traits: List[int] = []
+    for _ in range(count - 1):
+        value: int = random.randint(0, min(remaining, count))
+        traits.append(value)
+        remaining -= value
+    traits.append(remaining)
+    return tuple(traits)
 
-    def shoot(self):
-        print('Shooting')
 
-    def search(self):
-        print('Searching')
+def create_turret_class(
+    neuro: int, openn: int, cons: int, extra: int, agree: int
+) -> Type:
+    """
+    Creates a Turret class with the given personality traits.
+    """
+    return type(
+        "Turret",
+        (),
+        {
+            "name": "Turret",
+            "shoot": lambda self: print("Shooting"),
+            "search": lambda self: print("Searching"),
+            "talk": lambda self: print("Talking"),
+            "neuroticism": neuro,
+            "openness": openn,
+            "conscientiousness": cons,
+            "extraversion": extra,
+            "agreeableness": agree,
+        },
+    )
 
-    def talk(self):
-        print('Talking')
 
-    class_name = 'Turret'
-
-    def create_turret_class():
-        nonlocal class_name
-        personality_traits = [randint(0, 100)]
-        personality_traits.append(randint(0, 100 - sum(personality_traits)))
-        personality_traits.append(randint(0, 100 - sum(personality_traits)))
-        personality_traits.append(randint(0, 100 - sum(personality_traits)))
-        return type(
-            class_name, (), {
-                'name': class_name,
-                'shoot': shoot,
-                'search': search,
-                'talk': talk,
-                'neuroticism': personality_traits[0],
-                'openness': personality_traits[1],
-                'conscientiousness': personality_traits[2],
-                'extraversion': personality_traits[3],
-                'agreeableness': 100 - sum(personality_traits)
-            })
-
+def turrets_generator() -> Generator[Type, None, None]:
+    """
+    Generates an infinite generator of Turret classes
+    with randomly generated personality traits.
+    """
     while True:
-        yield create_turret_class()
-
-
-if __name__ == "__main__":
-    for t, i in zip(turrets_generator(), range(5)):
-        print('Turret', i, ':', t)
-        t.shoot(t)
-        t.search(t)
-        t.talk(t)
-        print('neuroticism:', t.neuroticism)
-        print('openness:', t.openness)
-        print('conscientiousness:', t.conscientiousness)
-        print('extraversion:', t.extraversion)
-        print('agreeableness:', t.agreeableness)
-        print(
-            'personality traits sum:', t.neuroticism + t.openness +
-            t.conscientiousness + t.extraversion + t.agreeableness)
-        print()
+        traits: Tuple[int] = random_by_total(count=5)
+        yield create_turret_class(*traits)
