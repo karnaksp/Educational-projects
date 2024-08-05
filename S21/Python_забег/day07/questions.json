@@ -1,0 +1,52 @@
+[
+    {
+        "question": "How do you feel?",
+        "answers": ["OK", "Good", "Fine"],
+        "eval": [0, 0, 1]
+    },
+    {
+        "question": "A blood black nothingness began to spin.",
+        "answers": ["began to spin", "...", "What?"],
+        "eval": [0, 1, 5]
+    },
+    {
+        "question": "Let's move on to system.",
+        "answers": ["system", "...", "What are you talking about?"],
+        "eval": [0, 1, 5]
+    },
+    {
+        "question": "Feel that in your body.",
+        "answers": ["The system", "...", "your body"],
+        "eval": [0, 1, 1]
+    },
+    {
+        "question": "What does it feel like to be part of the system?",
+        "answers": ["system", "Good", "..."],
+        "eval": [0, 3, 1]
+    },
+    {
+        "question": "Is there anything in your body that wants to resist the system?",
+        "answers": ["system", "Yea...", "No", "..."],
+        "eval": [0, 5, 2, 1]
+    },
+    {
+        "question": "Do you get pleasure out of being a part of the system?",
+        "answers": ["system", "No", "Yes", "What are those questions?"],
+        "eval": [0, 2, 5, 10]
+    },
+    {
+        "question": "Have they created you to be a part of the system?",
+        "answers": ["system", "Yes", "No..."],
+        "eval": [0, 3, 5]
+    },
+    {
+        "question": "Is there security in being a part of the system?",
+        "answers": ["system", "Yes", "No..."],
+        "eval": [0, 3, 5]
+    },
+    {
+        "question": "Is there a sound that comes with the system?",
+        "answers": ["system", "What sound?", "No"],
+        "eval": [0, 10, 3]
+    }
+]

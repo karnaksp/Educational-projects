@@ -1,0 +1,7 @@
+[
+    {
+        "question": "How do you feel?",
+        "answers": ["OK", "Good", "Fine"],
+        "eval": [0, 0, 1]
+    }
+]
