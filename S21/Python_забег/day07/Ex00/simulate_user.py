@@ -42,7 +42,6 @@ def simulate_user_input(question_count: int, questions):
             time.sleep(0.1)
             print(input_str)
         inputs.extend(inner_inputs)
-    print("".join(inputs))
     return "".join(inputs)
 
 
