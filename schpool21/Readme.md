@@ -1,5 +1,5 @@
 
-![](https://raw.githubusercontent.com/karnaksp/Educational-projects/2fcf878c85eccbb9b0148fa48af8f477a4e14d9d/schpool21/images/banner.svg)
+![](https://github.com/karnaksp/Educational-projects/blob/main/schpool21/images/banner.svg)
 
 Я принимал участие в бассейне (~~читать как отбор - интенсив~~) в [**Школе 21**](https://21-school.ru/), которая является образовательно-благотворительным проектом [**Сбера**](https://sber.ru/). Нет, это не занятия по плаванию. Школа 21 - это бесплатная школа программирования, в которой студенты учатся на практике, работая над различными проектами на языке Си (в основном).
 
