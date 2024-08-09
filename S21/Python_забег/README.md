@@ -19,7 +19,7 @@
 ```bash
 make clean
 ```
-![alt text](img/image-1.png)
+![alt text](img/image-9.png)
 
 > day 00 
 
