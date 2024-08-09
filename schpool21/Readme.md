@@ -18,7 +18,7 @@
 
 1. [Командный проект 1. Простая пошаговая игра Понг в Терминале.](https://github.com/karnaksp/Educational-projects/tree/main/schpool21/Pong)
 2. [Командный проект 2. Интерактивная игра Жизнь в Терминале с 5 инициирующими состояниями.](https://github.com/karnaksp/Educational-projects/tree/main/schpool21/game_of_life)
-3. [Командный проект 3. Перевод математического выражения в прямую Польскую нотацию (PN) - ~недоделана~. ](https://github.com/karnaksp/Educational-projects/tree/main/schpool21/pollish_notation)
+3. [Командный проект 3. Перевод математического выражения в прямую Польскую нотацию (PN) - ~недоделана~. ](https://github.com/karnaksp/Educational-projects/tree/main/schpool21/pollish_notation) (`указатели, указатели на указатели и указатели на тех`)
 4. [День 1. Он сложный самый. Знакомство с bash](https://github.com/karnaksp/Educational-projects/tree/main/schpool21/bash) (`bash, ssh-ключи`)
 5. [День 2. Bash скрипты](https://github.com/karnaksp/Educational-projects/tree/main/schpool21/vim_and_gitlab) (`Vim, git, markdown`)
 6. [День 3. Первое знакомство с Си](https://github.com/karnaksp/Educational-projects/tree/main/schpool21/first_c) (`C, scanf, sprintf, fgets`)
