@@ -34,7 +34,7 @@ Ex01:
 	@sleep 2
 	@DIR="Ex01" $(MAKE) --no-print-directory run_client
 
-Ex02:
+Ex02: docker_up
 	@DIR="Ex02" $(MAKE) --no-print-directory start_server
 	@sleep 2
 	@DIR="Ex02" $(MAKE) --no-print-directory run_client
@@ -48,7 +48,7 @@ clean: stop_server
 	@find . -type d -name 'htmlcov' -exec rm -rf {} +
 	@find . -type d -name '.pytest_cache' -exec rm -rf {} +
 	@rm -rf */.coverage */*.log
-	@rm -rf */output.txt
+	@rm -rf */output.txt */*.log
 	@rm -f *.txt ../materials/evilcorp_hacked.html ../materials/deploy.yml */spaceship_*.py */spaceship_*.pyi
 
 get_req:
@@ -72,6 +72,10 @@ check_lint:
 	isort . > $(STYLE_RESULTS_FILE); \
 	pylint --disable=c-extension-no-member --fail-under=9.0 --output-format=colorized */*.py
 
+build_in_docker:
+	docker compose up -d --build
+
 run_in_docker:
-	docker build -t karnaksp_day0 .
-	docker run --rm -it karnaksp_day0 /bin/bash
+	docker compose run app
+
+docker_up: build_in_docker run_in_docker

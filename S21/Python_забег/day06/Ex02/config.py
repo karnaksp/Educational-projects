@@ -8,6 +8,7 @@ CLASSES = ["CORVETTE", "FRIGATE", "CRUISER", "DESTROYER", "CARRIER", "DREADNOUGH
 LENGTH_RANGE = (80.0, 20000.0)
 CREW_SIZE_RANGE = (0, 500)
 ARMED_STATUS = [True, False]
+HOSTILE_STATUS = [True, False]
 OFFICER_NAMES = [
     {"first_name": "John", "last_name": "Doe", "rank": "Captain"},
     {"first_name": "Jane", "last_name": "Smith", "rank": "Commander"},

@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: python_app
+    container_name: karnaksp_app
+    volumes:
+      - .:/app
+    environment:
+      POSTGRES_DB: "spaceship_db"
+      POSTGRES_USER: "spaceship_user"
+      POSTGRES_PASSWORD: "12345678"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: "5432"
+    depends_on:
+      - postgres
+    command: /bin/bash
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: spaceship_db
+      POSTGRES_USER: spaceship_user
+      POSTGRES_PASSWORD: 12345678
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      - ./Ex02/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql

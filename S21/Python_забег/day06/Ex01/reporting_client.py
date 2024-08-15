@@ -2,9 +2,15 @@ import grpc
 import spaceship_pb2
 import spaceship_pb2_grpc
 import json
+import logging
 from models import Spaceship
 from pydantic import ValidationError
 
+logging.basicConfig(
+    filename="spaceship_errors.log",
+    level=logging.ERROR,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 def run(coordinate1, coordinate2):
     with grpc.insecure_channel("localhost:50051") as channel:
@@ -24,6 +30,7 @@ def run(coordinate1, coordinate2):
                     length=spaceship.length,
                     crew_size=spaceship.crew_size,
                     armed=spaceship.armed,
+                    hostile=spaceship.hostile,
                     officers=[
                         {
                             "first_name": officer.first_name,
@@ -35,7 +42,8 @@ def run(coordinate1, coordinate2):
                 )
                 print(ship.model_dump_json())
             except ValidationError as e:
-                print(f"Validation error: {e}")
+                logging.error(f"Validation error: {e}")
+                continue
 
 
 if __name__ == "__main__":

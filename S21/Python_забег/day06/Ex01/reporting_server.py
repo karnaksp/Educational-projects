@@ -17,6 +17,7 @@ class SpaceshipServicer(spaceship_pb2_grpc.GetSpaceshipsServicer):
             length = random.uniform(*config.LENGTH_RANGE)
             crew_size = random.randint(*config.CREW_SIZE_RANGE)
             armed = random.choice(config.ARMED_STATUS)
+            hostile = random.choice(config.HOSTILE_STATUS)
             if alignment == config.ALIGNMENTS[1]:
                 count_range = config.OFFICER_COUNT_RANGE
             else:
@@ -39,6 +40,7 @@ class SpaceshipServicer(spaceship_pb2_grpc.GetSpaceshipsServicer):
                 length=length,
                 crew_size=crew_size,
                 armed=armed,
+                hostile=hostile,
                 officers=officers,
             )
             yield spaceship
