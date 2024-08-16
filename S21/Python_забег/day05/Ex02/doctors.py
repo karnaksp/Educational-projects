@@ -19,13 +19,13 @@ class Doctor(threading.Thread):
 
     def run(self):
         while not self.grab_screwdrivers():
-            time.sleep(random.uniform(0.1, 0.5))
+            time.sleep(random.uniform(1, 2))
         self.perform_blast()
 
     def grab_screwdrivers(self):
         random.shuffle(self.screwdrivers)
         self.screwdriver_locks = [self.screwdrivers[0].lock, self.screwdrivers[1].lock]
-        acquired = [lock.acquire(timeout=0.1) for lock in self.screwdriver_locks]
+        acquired = [lock.acquire(timeout=1) for lock in self.screwdriver_locks]
 
         if all(acquired):
             return True
@@ -37,7 +37,7 @@ class Doctor(threading.Thread):
 
     def perform_blast(self):
         print(f"Doctor {self.id}: BLAST!")
-        time.sleep(random.uniform(0.1, 0.5))
+        time.sleep(random.uniform(1, 2))
         for lock in self.screwdriver_locks:
             if lock.locked():
                 lock.release()

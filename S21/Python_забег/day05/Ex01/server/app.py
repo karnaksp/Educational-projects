@@ -14,7 +14,7 @@ from mimetypes import guess_type
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "static/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"mp3", "wav", "ogg"}
-app.secret_key = "secret_key"  # Needed for flash messages
+app.secret_key = "secret_key"
 
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
