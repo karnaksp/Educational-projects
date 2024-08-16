@@ -1,0 +1,4 @@
+flask
+werkzeug
+bs4
+requests

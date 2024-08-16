@@ -8,10 +8,7 @@ import os
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 from models import SpaceshipORM, OfficerORM, Base  # ORM models
-
-src_path = os.path.abspath(os.path.join(os.getcwd(), "..", "Ex01"))
-sys.path.append(src_path)
-from models import Spaceship as SpaceshipModel  # Pydantic model
+from models_dantic import Spaceship as SpaceshipModel  # Pydantic model
 from pydantic import ValidationError
 
 logging.basicConfig(
@@ -134,6 +131,7 @@ def list_traitors():
             )
     finally:
         session.close()
+
 
 if __name__ == "__main__":
     command = sys.argv[1]

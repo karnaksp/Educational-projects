@@ -34,7 +34,7 @@ Ex01:
 	@sleep 2
 	@DIR="Ex01" $(MAKE) --no-print-directory run_client
 
-Ex02: docker_up
+Ex02:
 	@DIR="Ex02" $(MAKE) --no-print-directory start_server
 	@sleep 2
 	@DIR="Ex02" $(MAKE) --no-print-directory run_client
@@ -49,23 +49,10 @@ clean: stop_server
 	@find . -type d -name '.pytest_cache' -exec rm -rf {} +
 	@rm -rf */.coverage */*.log
 	@rm -rf */output.txt */*.log
-	@rm -f *.txt ../materials/evilcorp_hacked.html ../materials/deploy.yml */spaceship_*.py */spaceship_*.pyi
+	@rm -f ../materials/evilcorp_hacked.html ../materials/deploy.yml */spaceship_*.py */spaceship_*.pyi
 
-get_req:
-	@./cat.sh "Get requirements for all python files..." 10
-	@pipreqs $(SRC_DIR) --force --savepath $(REQUIREMENTS_FILE) > /dev/null 2>&1
-	@sort -u $(REQUIREMENTS_FILE) > $(REQUIREMENTS_FILE).tmp
-	@mv $(REQUIREMENTS_FILE).tmp $(REQUIREMENTS_FILE)
-	@sed -i 's/==.*//' $(REQUIREMENTS_FILE)
-
-install_dep:
-	# curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	# python3 get-pip.py
-	pip install pipreqs isort pylint autopep8 pytest-cov
-
-install_req: get_req
+install_req:
 	pip install -r $(REQUIREMENTS_FILE)
-
 
 check_lint:
 	autopep8 --in-place --recursive --aggressive */*.py > $(STYLE_RESULTS_FILE); \
