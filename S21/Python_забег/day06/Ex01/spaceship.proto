@@ -34,8 +34,7 @@ message Spaceship {
 }
 
 message Coordinates {
-  string coordinate1 = 1;
-  string coordinate2 = 2;
+  string coordinate = 1;
 }
 
 service GetSpaceships {

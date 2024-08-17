@@ -29,12 +29,12 @@ message Spaceship {
   float length = 4;
   int32 crew_size = 5;
   bool armed = 6;
-  repeated Officer officers = 7;
+  bool hostile = 7;
+  repeated Officer officers = 8;
 }
 
 message Coordinates {
-  string coordinate1 = 1;
-  string coordinate2 = 2;
+  string coordinate = 1;
 }
 
 service GetSpaceships {

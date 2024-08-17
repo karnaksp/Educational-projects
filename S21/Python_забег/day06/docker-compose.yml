@@ -28,5 +28,4 @@ services:
       POSTGRES_USER: spaceship_user
       POSTGRES_PASSWORD: 12345678
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
       - ./Ex02/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql

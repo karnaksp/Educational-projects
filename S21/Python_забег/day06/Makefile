@@ -16,6 +16,10 @@ run_client:
 	@./cat.sh "Running client..." 10
 	@cd $${DIR} && python3 reporting_client.py 0 0
 
+run_spaceships:
+	@./cat.sh "Running client..." 10
+	@cd Ex02 && python3 reporting_client.py scan 0 0 56 78
+
 stop_server:
 	@./cat.sh "Stopping gRPC server..." 10
 	@if [ -f server.pid ]; then \
@@ -37,7 +41,7 @@ Ex01:
 Ex02:
 	@DIR="Ex02" $(MAKE) --no-print-directory start_server
 	@sleep 2
-	@DIR="Ex02" $(MAKE) --no-print-directory run_client
+	@$(MAKE) --no-print-directory run_spaceships
 
 cat:
 	@chmod +x cat.sh
