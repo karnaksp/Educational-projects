@@ -1,19 +1,27 @@
+"""
+Simulate user behavior
+"""
+
 import subprocess
 import random
 import time
 import json
 
 
-def load_questions(filename: str):
+def load_questions(filename: str) -> list[dict[str, list | int]]:
+    """
+    Load questions from the JSON file.
+    """
     with open(filename, "r") as file:
         return json.load(file)
 
 
-def simulate_user_input(question_count: int, questions):
+def simulate_user_input(questions):
     """
     Generate simulated user inputs as a single string with questions and answers.
     """
     inputs = []
+    question_count = len(questions)
 
     for i in range(question_count):
         inner_inputs = []
@@ -45,22 +53,35 @@ def simulate_user_input(question_count: int, questions):
     return "".join(inputs)
 
 
-def run_test_with_simulation(question_count: int, questions):
-    user_inputs = simulate_user_input(question_count, questions)
+def run_test_with_simulation(questions):
+    """
+    Runs a simulation test with the given questions.
+
+    Args:
+        questions (list): A list of dictionaries representing the questions.
+            Each dictionary should have a "question" key with the question text.
+
+    Returns:
+        None
+    """
+    user_inputs = simulate_user_input(questions)
     process = subprocess.Popen(
-        ["python3", "main.py"],
+        ["python", "main.py"],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
     )
-    _, stderr = process.communicate(input=user_inputs)
-    # print(stdout)
+    stdout, stderr = process.communicate(input=user_inputs)
     if stderr:
         print(stderr)
+    if stdout:
+        for line in stdout.splitlines():
+            if "Decision:" in line:
+                print("Decision:", line.split("Decision:")[1].strip())
 
 
 if __name__ == "__main__":
-    question_count = 10
     question_path = "questions.json"
-    run_test_with_simulation(question_count, load_questions(question_path))
+    questions = load_questions(question_path)
+    run_test_with_simulation(questions)

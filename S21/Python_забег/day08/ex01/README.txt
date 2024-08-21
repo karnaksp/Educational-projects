@@ -1,1 +1,0 @@
-fastapi run server.py --port 8888

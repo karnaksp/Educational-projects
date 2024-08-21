@@ -1,2 +1,8 @@
-pytest
+pipreqs
+isort
+pylint
+autopep8
+pytest-cov
 sphinx
+sphinx-rtd-theme
+sphinx-autodoc-typehints

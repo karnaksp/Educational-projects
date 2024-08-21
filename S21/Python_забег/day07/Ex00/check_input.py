@@ -1,5 +1,5 @@
 """
-
+Check for correct input
 """
 
 
@@ -20,8 +20,7 @@ def get_int_input(prompt: str, min_value: int, max_value: int) -> int:
             value = int(input(prompt))
             if min_value <= value <= max_value:
                 return value
-            else:
-                print(f"\n!!! Value must be between {min_value} and {max_value}.\n")
+            print(f"\n!!! Value must be between {min_value} and {max_value}.\n")
         except ValueError:
             print("\nInvalid input. Please enter an integer.\n")
 
@@ -41,12 +40,9 @@ def get_user_input(answers: list) -> tuple[int, int, int, int, int]:
             answer_index = int(input("Select an answer (index): "))
             if 0 <= answer_index < len(answers):
                 break
-            else:
-                print(
-                    f"\nInvalid index. Please choose between 0 and {len(answers) - 1}.\n"
-                )
+            print(f"\nInvalid index. Please choose between 0 and {len(answers) - 1}.\n")
         except ValueError:
-            print("Invalid input. Please enter an integer.")
+            print("\nInvalid input. Please enter an integer.")
 
     respiration = get_int_input("Enter respiration rate (BPM, 2-30): ", 2, 30)
     heart_rate = get_int_input("Enter heart rate (BPM, 30-150): ", 30, 150)
