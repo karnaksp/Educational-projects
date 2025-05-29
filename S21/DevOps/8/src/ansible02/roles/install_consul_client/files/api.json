@@ -1,0 +1,28 @@
+{
+    "service": {
+        "name": "hotels-api",
+        "port": 8082,
+        "tags": [
+            "java",
+            "service"
+        ],
+        "connect": { "sidecar_service": {
+                "proxy": {
+                    "upstreams": [
+                        {
+                            "destination_name": "hotels-db",
+                            "local_bind_port": 5432
+                        }
+                    ]
+                } 
+            }
+        },
+        "check": {
+            "id": "hotels-api-check",
+            "name": "Hotels service tcp check",
+            "tcp": "localhost:8082",
+            "interval": "10s",
+            "timeout": "5s"
+        }
+    }
+}

@@ -1,0 +1,13 @@
+packages:
+  - postgresql
+  - python3-pip
+
+db_user: postgres
+db_user_password: postgres
+db_name: 
+  - hotels_db
+  - users_db
+  - reservations_db
+  - payments_db
+  - balances_db
+  - statistics_db

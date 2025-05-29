@@ -1,0 +1,107 @@
+---
+- name: Install pip3
+  apt:
+    name: python3-pip
+    state: present
+  become: yes
+
+
+- name: Install psycopg2
+  pip:
+    name: psycopg2-binary
+    state: present
+  become: yes
+
+
+- name: Install Postgresql
+  apt:
+    name: postgresql
+    state: present
+
+- name: Start and enable postgres daemon
+  service:
+    name: postgresql
+    state: started
+    enabled: true
+
+- name: Copy pg_hba.conf for local peer authentication method
+  copy:
+    src: ./pg_hba.conf
+    dest: /etc/postgresql/12/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: "0644"
+  become: yes
+
+- name: Restart PostgreSQL
+  service:
+    name: postgresql
+    state: restarted
+  become: yes
+
+
+- name: Setting password to postgres user 
+  become: true
+  become_user: root
+  shell: sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '{{ postgres_password }}';"
+
+- name: Changing type of authentication to password
+  become: true
+  become_user: root
+  shell: sudo sed -i "s/peer/md5/g" /etc/postgresql/12/main/pg_hba.conf
+
+- name: Changing listening interfaces to all
+  become: true
+  become_user: root
+  shell: sudo sed -i "s/#listen_addresses/listen_addresses/g" /etc/postgresql/12/main/postgresql.conf
+
+- name: Changing listening interfaces to all
+  become: true
+  become_user: root
+  shell: sudo sed -i "s/listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
+
+
+- name: Restart PostgreSQL
+  service:
+    name: postgresql
+    state: restarted
+  become: yes
+
+- name: Create a postgres DB
+  community.postgresql.postgresql_db:
+    login_user: postgres
+    login_password: "{{ postgres_password }}"
+    db: "{{ db_name }}"
+    state: present
+
+- name: Create a postgresql user {{ db_user }}
+  community.postgresql.postgresql_user:
+    login_user: postgres
+    login_password: postgres
+    name: evgen
+    password: "{{ db_password }}"
+    state: present
+
+
+- name: Create a table in the database
+  community.postgresql.postgresql_query:
+    db: "{{ db_name }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+    query: >
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        age INT NOT NULL
+      );
+
+- name: Insert sample data
+  community.postgresql.postgresql_query:
+    db: "{{ db_name }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+    query: >
+      INSERT INTO users (name, age) VALUES
+      ('Alice', 25),
+      ('Bob', 30),
+      ('Charlie', 22);

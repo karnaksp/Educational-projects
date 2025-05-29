@@ -71,10 +71,14 @@ class Protagonist:
         npc.talk(self)
         for quest_name in self.quests:
             quest = self.quests[quest_name]
-            if quest.get("type") == "interaction" and (quest.get("npc_name") == npc.name or quest.get("npc_type") == npc.type):
+            if quest.get("type") == "interaction" and (
+                quest.get("npc_name") == npc.name or quest.get("npc_type") == npc.type
+            ):
                 self.check_quests("iteraction", quest_name)
 
-            elif quest.get("type") == "item_transfer" and (quest.get("npc_name") == npc.name or quest.get("npc_type") == npc.type):
+            elif quest.get("type") == "item_transfer" and (
+                quest.get("npc_name") == npc.name or quest.get("npc_type") == npc.type
+            ):
                 if self.give(npc, quest.get("item")):
                     self.check_quests("item_transfer", quest_name)
 
@@ -109,22 +113,17 @@ class Protagonist:
 
             if enemy_rand > protagonist_rand:
                 print(
-                    f"Peers said you completed the project "
-                    f"with: {protagonist_rand:.2f}, Verter rated your project: {
-                        enemy_rand}. You are the best! and you're hp increase by 1 point\n"
+                    f"Peers said you completed the project with: {protagonist_rand}, Verter rated your project: {enemy_rand}. You are the best! and you're hp increase by 1 point\n"
                 )
                 self.heal(1)
             if enemy_rand > 80:
-                print(f"You successfully completed the project "
-                      f"{enemy.name}!\n")
+                print(f"You successfully completed the project {enemy.name}!\n")
                 self.advance_knowledge(enemy.points)
                 self.advance_level()
                 self.check_quests("project", enemy.name)
             else:
                 print(
-                    f"The project '"
-                    f"{enemy.name}' was too difficult. , Verter rated your project: {
-                        enemy_rand}. You lost 10% of your nerve cells.\n"
+                    f"The project '{enemy.name}' was too difficult. , Verter rated your project: {enemy_rand}. You lost 10% of your nerve cells.\n"
                 )
                 self.take_hit()
         else:
@@ -167,8 +166,9 @@ class Protagonist:
                 The amount of knowledge gained (default is 1).
         """
         self.level_points += value
-        print(f"Your knowledge increased! You now have "
-              f"{self.level_points} points.\n")
+        print(
+            f"Your knowledge increased! You now have " f"{self.level_points} points.\n"
+        )
 
     def advance_level(self) -> None:
         """
@@ -257,7 +257,8 @@ class Protagonist:
             self.quests[quest_name] = quest
             self.take_answer(True)
             print(f"You accepted the quest: {quest_name}")
-            print(f"{quest["description"]}\n")
+            desc = quest["description"]
+            print(f"{desc}\n")
 
     def check_quests(self, action_type: str, action_value: str) -> None:
         """
@@ -277,8 +278,9 @@ class Protagonist:
             self.quests[action_value]["done"] = True
             self.hp += quest.get("health", 0)
             self.level_points += quest.get("level_points", 0)
-            print(f"Quest '{action_value}' completed! You gained {quest["health"]} "
-                  f"HP and {quest["level_points"]} level points.\n")
+            print(
+                f"Quest '{action_value}' completed! You gained {self.hp} HP and {self.level_points} level points.\n"
+            )
             self.quests[action_value] = {"done": True}
 
         elif action_type == "project":
@@ -289,14 +291,16 @@ class Protagonist:
         Prints the description of the current location.
         """
         location = self.game_map.get(self.current_location)
+        name = location["name"]
+        desc = location["description"]
         if location:
-            print(f"You are at {location['name']}. {location['description']}\n")
+            print(f"You are at {name}. {desc}\n")
         else:
             print("You are in an unknown place.\n")
 
     def get_location_by_name(self, name):
         for _, location_info in self.game_map.items():
-            if location_info.get('name') == name:
+            if location_info.get("name") == name:
                 return location_info
         return None
 
@@ -316,7 +320,7 @@ class Protagonist:
             print("Invalid current location.\n")
 
 
-class NPC():
+class NPC:
     """
     Class representing an NPC, a type of basic non-playable character.
 
@@ -331,7 +335,16 @@ class NPC():
     inventory : Dict[str, int]
         A  dictionary of items NPC has and it's amount.
     """
-    def __init__(self, name: str, type: str, quests: Dict[str, Dict[Any, Any]], location: Dict[Any, Any], phrases: List[str], inventory: List[Dict[Any, Any]]):
+
+    def __init__(
+        self,
+        name: str,
+        type: str,
+        quests: Dict[str, Dict[Any, Any]],
+        location: Dict[Any, Any],
+        phrases: List[str],
+        inventory: List[Dict[Any, Any]],
+    ):
         """
         Initializes an NPC.
 
@@ -343,7 +356,7 @@ class NPC():
             A list of possible phrases that the NPC can say.
         quests : List[Dict[str, Dict[str, Any]]]
             A list of possible quests that the NPC can offer to protagonist.
-        
+
         Raises
         ------
         ValueError
@@ -416,8 +429,9 @@ class NPC():
             if selected_phrase == item.get("phrase"):
                 self.give(protagonist, item["name"])
                 item["amount"] -= 1
-                protagonist.heal(item["mental_health"])
-                print(f"You healed {item['mental_health']} HP.\n")
+                hp = item["mental_health"]
+                protagonist.heal(hp)
+                print(f"You healed {hp} HP.\n")
                 return
 
     def give_quest(self, protagonist: "Protagonist", quest: Dict[str, Any]) -> None:
@@ -471,6 +485,7 @@ class Enemy:
     points : int
         An amount of points protagonist will be awarded with enemy's defeat.
     """
+
     def __init__(self, quest: Dict[Any, Any], location: str):
         """
         Initializes an Enemy.
@@ -481,21 +496,27 @@ class Enemy:
             The location where Peer is situated.
         quest: Dict[Any, Any]
             A dictionary containing all basic info about enemy
-        
+
         Raises
         ------
         ValueError
             If any required data is missing or empty.
         """
         if not isinstance(quest, dict):
-            raise ValueError("A valid quest dictionary is required for Enemy initialization.")
+            raise ValueError(
+                "A valid quest dictionary is required for Enemy initialization."
+            )
         self.quest = quest
         if not isinstance(quest["health"], (int, float)):
-            raise ValueError("A valid 'health' value is required in the quest for Enemy initialization.")
+            raise ValueError(
+                "A valid 'health' value is required in the quest for Enemy initialization."
+            )
         self.hp = quest["health"]
 
         if not isinstance(quest["level_points"], int):
-            raise ValueError("A valid 'level_points' value is required in the quest for Enemy initialization.")
+            raise ValueError(
+                "A valid 'level_points' value is required in the quest for Enemy initialization."
+            )
         self.points = quest["level_points"]
 
         if not isinstance(location, str):
@@ -533,7 +554,7 @@ class Verter(Enemy):
             A list of possible phrases that the Verter can say.
         name : str
             A name of quest where Verter is from.
-        
+
         Raises
         ------
         ValueError
@@ -541,14 +562,20 @@ class Verter(Enemy):
         """
         super().__init__(quest, location)
         if not isinstance(quest, dict):
-            raise ValueError("A valid quest dictionary is required for Verter initialization.")
-        
+            raise ValueError(
+                "A valid quest dictionary is required for Verter initialization."
+            )
+
         if not isinstance(quest["name"], str):
-            raise ValueError("A valid 'name' must be provided in the quest for Verter initialization.")
+            raise ValueError(
+                "A valid 'name' must be provided in the quest for Verter initialization."
+            )
         self.name = quest["name"]
 
         if not isinstance(phrases, list) or len(phrases) < 1:
-            raise ValueError("A valid list of phrases is required for Verter initialization.")
+            raise ValueError(
+                "A valid list of phrases is required for Verter initialization."
+            )
         self.phrases = phrases
 
     def attack(self) -> int:

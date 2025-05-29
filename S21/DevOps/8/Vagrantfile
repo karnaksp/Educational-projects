@@ -1,0 +1,73 @@
+ENV['VAGRANT_SERVER_URL'] = 'https://vagrant.elab.pro'
+Vagrant.configure("2") do |config|
+config.vm.box = "ubuntu/focal64"
+config.vm.synced_folder '.', '/vagrant', disabled: true
+# ansible manager node
+config.vm.define "manager" do |manager|
+  manager.vm.hostname = "manager"
+  manager.vm.network "public_network", ip: "192.168.50.10"
+ manager.vm.provider "virtualbox" do |vb|
+    vb.memory = 1024
+    vb.cpus = 2
+  end
+  # manager.vm.synced_folder "./src", "/home/vagrant/src"
+  # manager.vm.synced_folder "./src/ansible02", "/home/vagrant/ansible"
+
+  manager.vm.provision "file", source: "src/ansible01/.ansible.cfg", destination: "home/vagrant/.ansible.cfg"
+
+  manager.vm.provision "file", source: "scripts/provision.sh", destination: "/home/vagrant/provision.sh"
+  manager.vm.provision "file", source: "scripts/get-all-ssh-keys.sh", destination: "/home/vagrant/get-all-ssh-keys.sh"
+  manager.vm.provision "file", source: "scripts/delete-json.sh", destination: "/home/vagrant/delete-json.sh"
+  manager.vm.provision "file", source: "scripts/configure-ansible.sh", destination: "/home/vagrant/configure-ansible.sh"
+  manager.vm.provision "shell", inline: <<-SHELL
+    chmod +x /home/vagrant/*.sh
+    /home/vagrant/provision.sh
+    ssh-keygen -t rsa -b 2048 -f /home/vagrant/.ssh/id_rsa -N ""
+    chown -R 1000:1000 /home/vagrant/.ssh
+    cp /home/vagrant/.ssh/id_rsa.pub /vagrant/
+    apt install -y ansible
+    sudo -u vagrant /home/vagrant/configure-ansible.sh
+  SHELL
+end
+
+# nodes that confugired by ansible
+workers = {
+  "consul" => "192.168.50.11",
+  "api" => "192.168.50.12",
+  "db"    => "192.168.50.13"
+}
+
+
+
+workers.each do |name, ip|
+  config.vm.define name do |worker|
+          
+    worker.vm.hostname = name
+    worker.vm.network "public_network", ip: ip
+    worker.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 2
+    end
+
+    if name == "api"
+        worker.vm.network "forwarded_port", guest: 8082, host: 8082
+    end
+    if name == "db"
+        worker.vm.network "forwarded_port", guest: 5432, host: 5432
+    end
+
+    if name == "consul"
+        worker.vm.network "forwarded_port", guest:8500, host: 8500
+    end
+
+    worker.vm.provision "file", source: "scripts/provision.sh", destination: "/home/vagrant/provision.sh"
+    worker.vm.provision "shell", inline: <<-SHELL
+      chmod +x /home/vagrant/*.sh
+      /home/vagrant/provision.sh
+      cat /vagrant/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+      apt install -y python3
+    SHELL
+  end
+end
+end
+

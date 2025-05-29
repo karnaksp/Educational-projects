@@ -1,0 +1,22 @@
+[Unit]
+Description=Consul envoy proxy
+After=my-consul.service
+
+
+[Service]
+Type=simple
+User=consul
+Group=consul
+ExecStart=/usr/bin/consul connect envoy -sidecar-for $(cat /etc/consul.d/*.json | awk '/name/{print $2}' | sed 's/\,//g' | sed 's/\"//g' | head -n1) --ignore-envoy-compatibility
+
+
+
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+TimeoutStopSec=5
+Restart=on-failure
+RestartSec=2
+SyslogIdentifier=envoy
+
+[Install]
+WantedBy=my-consul.service

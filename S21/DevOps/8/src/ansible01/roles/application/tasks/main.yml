@@ -1,0 +1,48 @@
+---
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: Install docker packs
+  apt:
+    name:
+      - docker.io
+    state: present
+
+- name: Install latest Docker Compose
+  shell: |
+    curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  args:
+    creates: /usr/local/bin/docker-compose
+
+
+- name: Ensure docker service is running
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: mkdir src
+  ansible.builtin.file:
+    path: /home/vagrant/src
+    state: directory
+    mode: '0755'
+
+- name: mkdir services
+  ansible.builtin.file:
+    path: /home/vagrant/src/services
+    state: directory
+    mode: '0755'
+
+- name: Copy src folder
+  ansible.builtin.synchronize:
+    src: /home/vagrant/src/services
+    dest: /home/vagrant/src/
+    recursive: yes
+    mode: push
+
+- name: Deploy application using docker-compose
+  shell: "docker-compose -f /home/{{ ansible_user }}/src/services/docker-compose.yml up -d"
+

@@ -1,0 +1,6 @@
+[consul]
+192.168.50.11 ansible_ssh_user=vagrant
+[api]
+192.168.50.12 ansible_ssh_user=vagrant
+[db]
+192.168.50.13 ansible_ssh_user=vagrant

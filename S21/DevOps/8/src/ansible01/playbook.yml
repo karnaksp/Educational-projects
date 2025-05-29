@@ -1,0 +1,16 @@
+---
+- name: Deploy Microservices Application on node1
+  hosts: node1
+  become: yes
+  roles:
+    - application
+
+- name: Deploy apache and postgresql on node2
+  hosts: node2
+  become: yes
+  vars_files:
+    - roles/postgre/vars.yml
+  roles:
+    - role: apache
+    - role: postgre
+

@@ -1,0 +1,24 @@
+---
+- name: Configure consul server
+  hosts: consul
+  become: yes
+  roles:
+    - install_consul_server 
+
+- name: Configure db hosts
+  hosts:
+    - db
+  become: yes
+  roles:
+    - install_consul_client
+    - install_db
+
+- name: Configure api hosts
+  hosts:
+    - api
+  become: yes
+  roles:
+    - install_consul_client
+    - install_hotels_service
+
+

@@ -1,0 +1,97 @@
+---
+- name: Adding hashicorp repo
+  shell: |
+    if [ ! -f /usr/share/keyrings/hashicorp-archive-keyring.gpg ]; then
+    wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg --yes &&
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list &&
+    sudo apt update;
+    fi
+
+- name: Install consul
+  apt:
+    name: consul
+    state: present
+
+- name: Copy consul client file
+  copy:
+    src: "{{ role_path }}/files/"
+    dest: "/etc/consul.d/"
+    owner: consul
+    group: consul
+
+
+- name: Ensure run.sh is executable
+  file:
+    path: /etc/consul.d/run-envoy.sh
+    owner: consul
+    group: consul
+    mode: "0755"
+
+
+- name: Copy consul systemd unit file
+  copy:
+    src: "my-consul.service"
+    dest: "/etc/systemd/system/my-consul.service"
+    owner: consul
+    group: consul
+
+- name: Copy envoy systemd unit file
+  copy:
+    src: "envoy.service"
+    dest: "/etc/systemd/system/envoy.service"
+    owner: consul
+    group: consul
+
+
+
+- name: Copy script
+  copy:
+    src: "delete-json.sh"
+    dest: "delete-json.sh"
+    owner: consul
+    group: consul
+
+- name: Delete another json files
+  shell: |
+    sudo chmod +x /home/vagrant/delete-json.sh
+    sudo /home/vagrant/delete-json.sh
+
+- name: Delete consul server file
+  file:
+    path: /etc/consul.d/consul_server.hcl
+    state: absent
+
+- name: Setting params to consul file
+  shell: |
+    sed -i "s/SELECT_SERVER_IP/$(awk '/consul_server/{print $1}' /etc/hosts | head -n1)/g" /etc/consul.d/consul_client.hcl
+    sed -i "s/SELECT_CLIENT_IP/$(hostname -I | awk '{print $2}')/g" /etc/consul.d/consul_client.hcl
+    sed -i "s/SELECT_HOSTNAME/$(hostname)/g" /etc/consul.d/consul_client.hcl
+  
+- name: Download Envoy GPG key, apt update, apt install envoy #м-да, декларативностью тут и не пахнет
+  shell: |
+    if [ ! -f /usr/share/keyrings/envoy-keyring.gpg ]; then
+    wget -O- https://apt.envoyproxy.io/signing.key | sudo gpg --dearmor --yes -o /usr/share/keyrings/envoy-keyring.gpg &&
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/envoy-keyring.gpg] https://apt.envoyproxy.io focal main" | sudo tee /etc/apt/sources.list.d/envoy.list &&
+    sudo apt-get update
+    fi
+
+- name: Install envoy
+  apt:
+    name: envoy
+    state: present
+
+- name: Start consul systemd unit
+  service:
+    daemon_reload: true
+    name: my-consul
+    state: started
+    enabled: yes
+
+
+- name: Start envoy-proxy systemd unit
+  service:
+    daemon_reload: true
+    name: envoy
+    state: started
+    enabled: yes
+

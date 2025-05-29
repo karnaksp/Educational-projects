@@ -1,0 +1,4 @@
+db_name: my_db
+db_user: evgen
+db_password: evgen
+postgres_password: postgres

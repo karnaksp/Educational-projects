@@ -1,0 +1,21 @@
+---
+- name: Install Apache
+  ansible.builtin.package:
+    name: apache2
+    state: present
+
+- name: start and enable Apache daemon
+  ansible.builtin.service:
+    name: apache2
+    state: started
+    enabled: true
+
+- name: Deploy custom index.html
+  ansible.builtin.copy:
+    content: |
+      <html>
+      <head><title>Apache Test Page</title></head>
+      <body><h1>Apache is running!</h1></body>
+      </html>
+    dest: /var/www/html/index.html
+    mode: '0644'

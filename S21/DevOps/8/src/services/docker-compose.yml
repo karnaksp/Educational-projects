@@ -1,0 +1,232 @@
+services:
+
+  nginx-proxy:
+    image: nginx:latest
+    networks:
+      - app-network
+    ports:
+      - "8081:8081"
+      - "8087:8087"
+    volumes:
+      - ./nginx/proxy-pass.conf:/etc/nginx/conf.d/proxy-pass.conf:z
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.role == manager
+    restart: always
+
+  #db:
+  #  image: postgres:17.2
+  #  networks:
+  #    - app-network
+  #  environment:
+  #    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #  volumes:
+  #    - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:z
+  #    #logging:
+  #    #  driver: "json-file"
+  #    #  options:
+  #    #    max-size: "10m"
+  #    #    max-file: "3"
+  #  deploy:
+  #    replicas: 1
+  #    placement:
+  #      constraints:
+  #        - node.labels.role == worker
+  #  restart: always
+
+  rabbit:
+    image: rabbitmq:3-management-alpine
+    networks:
+      - app-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.role == worker
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+ 
+ 
+  booking-service:
+    image: evgeniyfimushkin/booking-service:1.0
+    networks:
+      - app-network
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: reservations_db
+      RABBIT_MQ_HOST: ${RABBIT_MQ_HOST}
+      RABBIT_MQ_PORT: ${RABBIT_MQ_PORT}
+      RABBIT_MQ_USER: ${RABBIT_MQ_USER}
+      RABBIT_MQ_PASSWORD: ${RABBIT_MQ_PASSWORD}
+      RABBIT_MQ_QUEUE_NAME: ${RABBIT_MQ_QUEUE_NAME}
+      RABBIT_MQ_EXCHANGE: ${RABBIT_MQ_EXCHANGE}
+      HOTEL_SERVICE_HOST: ${HOTEL_SERVICE_HOST}
+      HOTEL_SERVICE_PORT: ${HOTEL_SERVICE_PORT}
+      PAYMENT_SERVICE_HOST: payment-service
+      PAYMENT_SERVICE_PORT: ${PAYMENT_SERVICE_PORT}
+      LOYALTY_SERVICE_HOST: loyalty-service
+      LOYALTY_SERVICE_PORT: ${LOYALTY_SERVICE_PORT}
+    deploy:
+      
+      placement:
+        constraints:
+          - node.labels.role == worker
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+
+  session-service:
+    image: evgeniyfimushkin/session-service:1.0
+    networks:
+      - app-network
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}   
+    deploy:
+      
+      placement:
+        constraints:
+          - node.labels.role == worker
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+
+
+  report-service:
+    image: evgeniyfimushkin/report-service:1.0
+    networks:
+      - app-network
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: statistics_db
+      RABBIT_MQ_HOST: ${RABBIT_MQ_HOST}
+      RABBIT_MQ_PORT: ${RABBIT_MQ_PORT}
+      RABBIT_MQ_USER: ${RABBIT_MQ_USER}
+      RABBIT_MQ_PASSWORD: ${RABBIT_MQ_PASSWORD}
+      RABBIT_MQ_QUEUE_NAME: ${RABBIT_MQ_QUEUE_NAME}
+      RABBIT_MQ_EXCHANGE: ${RABBIT_MQ_EXCHANGE}
+    deploy:
+      
+      placement:
+        constraints:
+          - node.labels.role == worker
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+
+
+  payment-service:
+    image: evgeniyfimushkin/payment-service:1.0
+    networks:
+      - app-network
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: payments_db
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.role == worker
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+
+
+  loyalty-service:
+    image: evgeniyfimushkin/loyalty-service:1.0
+    networks:
+      - app-network
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: balances_db
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.role == worker
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+
+
+  #${HOTEL_SERVICE_HOST}:
+  #  image: evgeniyfimushkin/${HOTEL_SERVICE_HOST}:1.0
+  #  networks:
+  #    - app-network
+  #  environment:
+  #    POSTGRES_HOST: ${POSTGRES_HOST}
+  #    POSTGRES_PORT: ${POSTGRES_PORT}
+  #    POSTGRES_USER: ${POSTGRES_USER}
+  #    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #    POSTGRES_DB: hotels_db
+  #  deploy:
+  #    replicas: 1
+  #    placement:
+  #      constraints:
+  #        - node.labels.role == worker
+  #  restart: always
+
+
+
+  gateway-service:
+    image: evgeniyfimushkin/gateway-service:1.0
+    networks:
+      - app-network
+    environment:
+      SESSION_SERVICE_HOST: session-service
+      SESSION_SERVICE_PORT: ${SESSION_SERVICE_PORT}
+      HOTEL_SERVICE_HOST: ${HOTEL_SERVICE_HOST}
+      HOTEL_SERVICE_PORT: ${HOTEL_SERVICE_PORT}
+      BOOKING_SERVICE_HOST: booking-service
+      BOOKING_SERVICE_PORT: ${BOOKING_SERVICE_PORT}
+      PAYMENT_SERVICE_HOST: payment-service
+      PAYMENT_SERVICE_PORT: ${PAYMENT_SERVICE_PORT}
+      LOYALTY_SERVICE_HOST: loyalty-service
+      LOYALTY_SERVICE_PORT: ${LOYALTY_SERVICE_PORT}
+      REPORT_SERVICE_HOST: report-service
+      REPORT_SERVICE_PORT: ${REPORT_SERVICE_PORT}
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.role == worker
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+networks:
+  app-network:
+    driver: bridge
