@@ -1,0 +1,203 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+raise "Требуется Vagrant 2.2.0 или выше" if Vagrant::VERSION < '2.2.0'
+
+# ------------------------------------------------------------
+# Параметры конфигурации
+# ------------------------------------------------------------
+ENV['VAGRANT_SERVER_URL'] = 'http://vagrant.elab.pro'
+NUM_MANAGERS      = (ENV['NUM_MANAGERS'] || 1).to_i
+NUM_WORKERS       = (ENV['NUM_WORKERS'] || 2).to_i
+AUTO_SWARM        = ENV['AUTO_START_SWARM'] == 'true'
+
+VM_MEMORY         = 512
+VM_CPUS           = 2
+NETWORK_PREFIX    = "192.168.56"
+BASE_IP           = 10
+STACK_NAME        = "mystack"
+
+# Пути
+SRC               = "/home/vagrant/src"
+COMPOSE_FILE_PATH = "#{SRC}/docker-compose.yml"
+DEB_FOLDER        = "#{SRC}/docker-packages"
+LOCAL_IMAGES_DIR  = "#{SRC}/images"
+MAN_SWARM_TOKEN   = "#{SRC}/tokens/swarm_manager_token"
+WORK_SWARM_TOKEN  = "#{SRC}/tokens/swarm_worker_token"
+
+# ------------------------------------------------------------
+# SHELL скрипты
+# -----------------------------------------------------------
+INSTALL_DOCKER_SCRIPT = <<-SCRIPT
+  # Отключаем IPv6
+  echo 'net.ipv6.conf.all.disable_ipv6 = 1' | sudo tee -a /etc/sysctl.conf
+  echo 'net.ipv6.conf.default.disable_ipv6 = 1' | sudo tee -a /etc/sysctl.conf
+  sudo sysctl -p
+
+  # Устанавливаем зависимости и Docker
+  sudo apt-get update
+  sudo apt-get install -y libseccomp2 libltdl7 netcat
+  sudo dpkg -i #{DEB_FOLDER}/*.deb
+  sudo apt-get install -f -y
+
+  # Настраиваем Docker
+  sudo usermod -aG docker vagrant
+  sudo systemctl enable docker
+  sudo systemctl start docker
+SCRIPT
+
+LOAD_DOCKER_IMAGES = <<-SCRIPT
+  # Создаем директорию для локальных образов, если она отсутствует
+  sudo mkdir -p /home/vagrant/src/images
+  # Загружаем локальные образы при первоначальной инициализации
+  if [ -d "#{LOCAL_IMAGES_DIR}" ]; then
+    echo "Проверка наличия локальных образов..."
+    if [ ! -f /home/vagrant/.initial_images_loaded ]; then
+      echo "Загрузка локальных образов..."
+      sudo docker load -i /home/vagrant/src/images/postgres.tar || { echo "❌ Не найден postgres.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/rabbitmq.tar || { echo "❌ Не найден rabbitmq.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/portainer.tar || { echo "❌ Не найден portainer.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/nginx.tar || { echo "❌ Не найден nginx.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/hotel-service.tar || { echo "❌ Не найден hotel-service.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/payment-service.tar || { echo "❌ Не найден payment-service.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/loyalty-service.tar || { echo "❌ Не найден loyalty-service.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/report-service.tar || { echo "❌ Не найден report-service.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/booking-service.tar || { echo "❌ Не найден booking-service.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/session-service.tar || { echo "❌ Не найден session-service.tar"; exit 1; }
+      sudo docker load -i /home/vagrant/src/images/gateway-service.tar || { echo "❌ Не найден gateway-service.tar"; exit 1; }
+      sudo touch /home/vagrant/.initial_images_loaded
+    fi
+  else
+    echo "❌ Директория src/images не найдена"
+    exit 1
+  fi
+SCRIPT
+
+# ------------------------------------------------------------
+# Вспомогательные функции
+# ------------------------------------------------------------
+def generate_ips(prefix, base, count, offset = 0)
+  (1..count).map { |i| "#{prefix}.#{base + offset + i - 1}" }
+end
+
+def build_instances(managers, workers)
+  managers.map.with_index { |ip, i| { name: "manager%02d" % (i + 1), ip: ip, role: :manager } } +
+    workers.map.with_index { |ip, i| { name: "worker%02d" % (i + 1), ip: ip, role: :worker } }
+end
+
+def setup_swarm(node, inst)
+  node.vm.provision "shell", inline: <<-EOS, privileged: true
+    until docker info >/dev/null 2>&1; do
+      echo "Ожидание инициализации Docker..."
+      sleep 3
+    done
+  EOS
+
+  join_cmd = case inst[:role]
+             when :manager
+               if inst[:name] == "manager01"
+                 <<-EOS
+                   docker swarm init --advertise-addr #{inst[:ip]}
+                   docker swarm join-token -q worker > #{WORK_SWARM_TOKEN}
+                   docker swarm join-token -q manager > #{MAN_SWARM_TOKEN}
+                 EOS
+               else
+                 <<-EOS
+                   until [ -f #{MAN_SWARM_TOKEN} ]; do
+                     echo "Ожидание токена менеджера..."
+                     sleep 3
+                   done
+                   docker swarm join --token $(cat #{MAN_SWARM_TOKEN}) #{MANAGER_IPS.first}:2377
+                 EOS
+               end
+             when :worker
+               <<-EOS
+                 until [ -f #{WORK_SWARM_TOKEN} ]; do
+                   echo "Ожидание токена воркера..."
+                   sleep 3
+                 done
+                 docker swarm join --token $(cat #{WORK_SWARM_TOKEN}) #{MANAGER_IPS.first}:2377
+               EOS
+             end
+
+  node.vm.provision "shell", inline: join_cmd, privileged: true
+end
+
+def write_hosts_file(instances)
+  File.write("src/hosts", instances.map { |i| "#{i[:ip]} #{i[:name]}" }.join("\n"))
+end
+
+# ------------------------------------------------------------
+# Инициализация
+# ------------------------------------------------------------
+MANAGER_IPS = generate_ips(NETWORK_PREFIX, BASE_IP, NUM_MANAGERS)
+WORKER_IPS  = generate_ips(NETWORK_PREFIX, BASE_IP, NUM_WORKERS, 10)
+INSTANCES   = build_instances(MANAGER_IPS, WORKER_IPS)
+write_hosts_file(INSTANCES)
+
+# ------------------------------------------------------------
+# Vagrant конфигурация
+# ------------------------------------------------------------
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.box_check_update = true
+  # config.vm.boot_timeout = 3000
+  # config.ssh.insert_key = true
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = "C:\\Users\\denis.irinyakov\\.vagrant.d\\insecure_private_key"
+  config.ssh.insert_key = false
+  config.ssh.forward_agent = true
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "src/docker-packages", "#{DEB_FOLDER}"
+  config.vm.synced_folder "src/tokens", "#{SRC}/tokens"
+  config.vm.synced_folder "src/images", LOCAL_IMAGES_DIR
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = VM_MEMORY
+    vb.cpus   = VM_CPUS
+  end
+  INSTANCES.each do |inst|
+    config.vm.define inst[:name] do |node|
+      node.vm.hostname = inst[:name]
+      node.vm.network "private_network", ip: inst[:ip]
+      node.vm.network "forwarded_port",
+        guest: 22, host: "22#{inst[:ip].split('.').last}", host_ip: "127.0.0.1", auto_correct: true
+      node.vm.provision "file", source: "src/hosts", destination: "/tmp/hosts"
+      node.vm.provision "shell", inline: "sudo cat /tmp/hosts >> /etc/hosts"
+      node.vm.provision "shell", inline: "#{INSTALL_DOCKER_SCRIPT}", privileged: true
+      if inst[:name] == "manager01"
+        node.vm.network "forwarded_port", guest: 9000, host: 9000, host_ip: "127.0.0.1", auto_correct: true
+        node.vm.synced_folder "src/services", "#{SRC}/services"
+        node.vm.synced_folder "src", "#{SRC}", type: "rsync",
+          rsync__include: [
+            "src/docker-compose.yml",
+            "src/nginx.conf",
+            "src/services/*",
+            "src/images/*"
+          ],
+          rsync__exclude: ["*"]
+        node.vm.provision "shell", inline: "#{LOAD_DOCKER_IMAGES}", privileged: true
+      end
+      setup_swarm(node, inst) if AUTO_SWARM
+    end
+  end
+  if AUTO_SWARM
+    config.trigger.after :up do |trigger|
+      trigger.name = "Deploy Docker Stack"
+      trigger.info = "Ждём готовности всех узлов для деплоя стека."
+      trigger.ruby do
+        running = `vagrant status --machine-readable`.lines.count { |l| l.include?(",state,running") }
+        if running == INSTANCES.size
+          puts "✅ Все узлы готовы."
+          system("vagrant ssh manager01 -c \"cd /home/vagrant/src/services &&
+            # Деплой стека
+            until docker node ls | grep -q Ready; do sleep 1; done && 
+            docker stack deploy -c #{COMPOSE_FILE_PATH} #{STACK_NAME}\\")
+          puts "✅ Стек успешно деплоен."
+        else
+          puts "❌ Не все узлы готовы."
+        end
+      end
+    end
+  end
+end

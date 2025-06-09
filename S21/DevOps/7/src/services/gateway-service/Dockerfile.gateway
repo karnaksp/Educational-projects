@@ -1,0 +1,17 @@
+FROM maven:3.8.6-openjdk-11 AS build
+WORKDIR /app
+COPY . .
+RUN mvn -N io.takari:maven:wrapper
+RUN mvn -X validate
+RUN mvn clean
+RUN mvn -X dependency:go-offline
+RUN mvn -B package -DskipTests
+
+FROM openjdk:8-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+COPY ./wait-for-it.sh .
+RUN apk add --no-cache bash 
+RUN chmod +x wait-for-it.sh
+EXPOSE 8087
+ENTRYPOINT ["bash", "./wait-for-it.sh", "session:8087", "--timeout=30", "--", "java", "-jar", "app.jar"]

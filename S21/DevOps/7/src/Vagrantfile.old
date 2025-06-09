@@ -1,0 +1,12 @@
+ENV['VAGRANT_SERVER_URL'] = 'http://vagrant.elab.pro'
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = false
+  end
+  config.vm.network "forwarded_port", guest: 80, host: 8090
+  config.vm.synced_folder "/home/karnaksp/MY_SCHOOL_PROJECTS/Devops/DevOps_7-1/src", "/vagrant"
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
+end

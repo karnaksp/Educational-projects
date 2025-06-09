@@ -1,73 +1,188 @@
-ENV['VAGRANT_SERVER_URL'] = 'https://vagrant.elab.pro'
-Vagrant.configure("2") do |config|
-config.vm.box = "ubuntu/focal64"
-config.vm.synced_folder '.', '/vagrant', disabled: true
-# ansible manager node
-config.vm.define "manager" do |manager|
-  manager.vm.hostname = "manager"
-  manager.vm.network "public_network", ip: "192.168.50.10"
- manager.vm.provider "virtualbox" do |vb|
-    vb.memory = 1024
-    vb.cpus = 2
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+raise "Требуется Vagrant 2.2.0 или выше" if Vagrant::VERSION < '2.2.0'
+
+# ------------------------------------------------------------
+# Параметры конфигурации
+# ------------------------------------------------------------
+ENV['VAGRANT_SERVER_URL'] = 'http://vagrant.elab.pro'
+
+NUM_MANAGERS      = (ENV['NUM_MANAGERS'] || 1).to_i
+WORKER_NAMES      = %w[consul api db]
+
+VM_MEMORY         = 1024
+VM_CPUS           = 2
+NETWORK_PREFIX    = "192.168.50"
+BASE_IP           = 10
+
+SRC_GUEST         = "/home/vagrant/src"
+SRC_HOST          = "src"
+
+# Папки для синхронизации через rsync
+RSYNC_FOLDERS = [
+  {
+    host: SRC_HOST,
+    guest: SRC_GUEST,
+    rsync__exclude: ["*"],
+    rsync__include: ["#{SRC_HOST}/ansible01/", "#{SRC_HOST}/scripts/"]
+  }
+]
+
+# ------------------------------------------------------------
+# Вспомогательные функции
+# ------------------------------------------------------------
+def generate_ips(prefix, base, count, offset = 0)
+  (1..count).map { |i| "#{prefix}.#{base + offset + i - 1}" }
+end
+
+def build_instances(managers, workers)
+  manager_instances = managers.map.with_index { |ip, i| { name: "manager%02d" % (i + 1), ip: ip, role: :manager } }
+  worker_instances = workers.each_with_index.map { |(name, ip), _| { name: name, ip: ip, role: :worker } }
+  manager_instances + worker_instances
+end
+
+def write_hosts_file(instances)
+  File.write("#{SRC_HOST}/hosts", instances.map { |i| "#{i[:ip]} #{i[:name]}" }.join("\n"))
+end
+
+def setup_synced_folders(node)
+  RSYNC_FOLDERS.each do |folder|
+    node.vm.synced_folder folder[:host], folder[:guest],
+      type: "rsync",
+      rsync__exclude: folder[:rsync__exclude],
+      rsync__include: folder[:rsync__include],
+      rsync__args: ["--verbose", "--archive", "--delete", "--copy-links"]
   end
-  # manager.vm.synced_folder "./src", "/home/vagrant/src"
-  # manager.vm.synced_folder "./src/ansible02", "/home/vagrant/ansible"
+end
 
-  manager.vm.provision "file", source: "src/ansible01/.ansible.cfg", destination: "home/vagrant/.ansible.cfg"
+def setup_port_forwarding(node, guest_port, host_port)
+  node.vm.network "forwarded_port", guest: guest_port, host: host_port
+end
 
-  manager.vm.provision "file", source: "scripts/provision.sh", destination: "/home/vagrant/provision.sh"
-  manager.vm.provision "file", source: "scripts/get-all-ssh-keys.sh", destination: "/home/vagrant/get-all-ssh-keys.sh"
-  manager.vm.provision "file", source: "scripts/delete-json.sh", destination: "/home/vagrant/delete-json.sh"
-  manager.vm.provision "file", source: "scripts/configure-ansible.sh", destination: "/home/vagrant/configure-ansible.sh"
-  manager.vm.provision "shell", inline: <<-SHELL
-    chmod +x /home/vagrant/*.sh
-    /home/vagrant/provision.sh
+def common_provision(node, inst)
+  node.vm.provision "shell", inline: <<-EOS
+    set -e
+    sudo sed -i 's|http://.*archive.ubuntu.com|http://mirror.yandex.ru/ubuntu|g' /etc/apt/sources.list
+    sudo sed -i 's|http://security.ubuntu.com|http://mirror.yandex.ru/ubuntu|g' /etc/apt/sources.list
+    sudo apt-get update -y
+    sudo apt-get upgrade -y
+    sudo apt-get install jq ca-certificates python3 net-tools -y --fix-missing
+    sudo update-ca-certificates
+    echo "export TERM=xterm-256color" >> /home/vagrant/.bashrc
+  EOS
+end
+
+def manager_provision(node, inst)
+  node.vm.provision "shell", inline: <<-EOS
+    set -e
+    echo "=== MANAGER SETUP ==="
+
+    # Install base tools
+    sudo apt-get install -y openssh-server curl iptables-persistent
+
+    # Configure firewall
+    sudo ufw allow OpenSSH
+    sudo ufw allow 22
+    sudo ufw allow 8500
+    sudo ufw --force enable
+
+    # SSH keys
     ssh-keygen -t rsa -b 2048 -f /home/vagrant/.ssh/id_rsa -N ""
-    chown -R 1000:1000 /home/vagrant/.ssh
-    cp /home/vagrant/.ssh/id_rsa.pub /vagrant/
-    apt install -y ansible
-    sudo -u vagrant /home/vagrant/configure-ansible.sh
-  SHELL
+    chown -R vagrant:vagrant /home/vagrant/.ssh
+
+    # SSH server hardening
+    echo "AllowUsers vagrant" | sudo tee -a /etc/ssh/sshd_config
+    echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
+    sudo systemctl restart ssh
+
+    echo "=== NETWORK CONFIG ==="
+    ip a
+    ip route
+  EOS
 end
 
-# nodes that confugired by ansible
-workers = {
-  "consul" => "192.168.50.11",
-  "api" => "192.168.50.12",
-  "db"    => "192.168.50.13"
-}
+def worker_provision(node, inst)
+  all_ips = (MANAGER_IPS + WORKER_IPS).uniq
+  ssh_keyscan_commands = all_ips.map { |ip| "ssh-keyscan -H #{ip} >> /home/vagrant/.ssh/known_hosts" }.join(" && ")
 
+  node.vm.provision "shell", inline: <<-EOS
+    set -e
+    echo "=== WORKER SETUP ==="
 
+    # Install tools
+    sudo apt-get install -y openssh-client net-tools
 
-workers.each do |name, ip|
-  config.vm.define name do |worker|
-          
-    worker.vm.hostname = name
-    worker.vm.network "public_network", ip: ip
-    worker.vm.provider "virtualbox" do |vb|
-      vb.memory = 1024
-      vb.cpus = 2
+    # Wait for network stack
+    sleep 5
+
+    echo "=== NETWORK STATUS ==="
+    hostname -I
+    ip route
+
+    echo "=== CHECK MANAGER CONNECTION ==="
+    ping -c3 #{MANAGER_IPS.first} || echo "Manager not reachable yet."
+
+    # Setup SSH trust
+    mkdir -p /home/vagrant/.ssh
+    chmod 700 /home/vagrant/.ssh
+    #{ssh_keyscan_commands} || true
+
+    echo "=== SSH DEBUG ==="
+    ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 vagrant@#{MANAGER_IPS.first} "echo 'Connected to manager'" || echo "SSH failed"
+  EOS
+end
+
+# ------------------------------------------------------------
+# Инициализация
+# ------------------------------------------------------------
+
+MANAGER_IPS = generate_ips(NETWORK_PREFIX, BASE_IP, NUM_MANAGERS)
+WORKER_IPS  = generate_ips(NETWORK_PREFIX, BASE_IP, WORKER_NAMES.length, 10)
+
+WORKERS = WORKER_NAMES.zip(WORKER_IPS)
+
+INSTANCES = build_instances(MANAGER_IPS, WORKERS)
+
+write_hosts_file(INSTANCES)
+
+# ------------------------------------------------------------
+# Vagrant конфигурация
+# ------------------------------------------------------------
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  INSTANCES.each do |inst|
+    config.vm.define inst[:name] do |node|
+      node.vm.hostname = inst[:name]
+
+      # Настройка private сети для внутренней связи
+      node.vm.network "private_network", ip: inst[:ip]
+
+      node.vm.provider "virtualbox" do |vb|
+        vb.memory = VM_MEMORY
+        vb.cpus = VM_CPUS
+      end
+
+      common_provision(node, inst)
+
+      case inst[:role]
+      when :manager
+        setup_synced_folders(node)
+        manager_provision(node, inst)
+      when :worker
+        worker_provision(node, inst)
+      end
+
+      # Проброс портов
+      case inst[:name]
+      when "api"
+        setup_port_forwarding(node, 8082, 8082)
+      when "consul"
+        setup_port_forwarding(node, 8500, 8500)
+      end
     end
-
-    if name == "api"
-        worker.vm.network "forwarded_port", guest: 8082, host: 8082
-    end
-    if name == "db"
-        worker.vm.network "forwarded_port", guest: 5432, host: 5432
-    end
-
-    if name == "consul"
-        worker.vm.network "forwarded_port", guest:8500, host: 8500
-    end
-
-    worker.vm.provision "file", source: "scripts/provision.sh", destination: "/home/vagrant/provision.sh"
-    worker.vm.provision "shell", inline: <<-SHELL
-      chmod +x /home/vagrant/*.sh
-      /home/vagrant/provision.sh
-      cat /vagrant/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
-      apt install -y python3
-    SHELL
   end
 end
-end
-
