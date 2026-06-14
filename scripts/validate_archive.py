@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import fnmatch
-import subprocess
+import subprocess  # nosec B404 - fixed local git invocation for tracked file listing.
 import sys
 from pathlib import PurePosixPath
 
@@ -130,7 +130,7 @@ ALLOWLIST_SUFFIXES = (
 
 
 def git_ls_files() -> list[str]:
-    result = subprocess.run(
+    result = subprocess.run(  # nosec B603 - arguments are static and shell is not used.
         ["git", "ls-files"],
         check=True,
         stdout=subprocess.PIPE,
@@ -142,23 +142,35 @@ def git_ls_files() -> list[str]:
 
 def matches_deny_pattern(path: str) -> bool:
     name = PurePosixPath(path).name
-    return any(fnmatch.fnmatch(path, pattern) or fnmatch.fnmatch(name, pattern) for pattern in DENY_PATTERNS)
+    return any(
+        fnmatch.fnmatch(path, pattern) or fnmatch.fnmatch(name, pattern)
+        for pattern in DENY_PATTERNS
+    )
 
 
 def is_allowlisted(path: str) -> bool:
     if PurePosixPath(path).name in {".env.example", ".env.sample"}:
         return True
-    return path in ALLOWLIST or any(path.endswith(suffix) for suffix in ALLOWLIST_SUFFIXES)
+    return path in ALLOWLIST or any(
+        path.endswith(suffix) for suffix in ALLOWLIST_SUFFIXES
+    )
 
 
 def main() -> int:
-    violations = sorted(path for path in git_ls_files() if matches_deny_pattern(path) and not is_allowlisted(path))
+    violations = sorted(
+        path
+        for path in git_ls_files()
+        if matches_deny_pattern(path) and not is_allowlisted(path)
+    )
 
     if violations:
         print("Tracked archive hygiene violations found:")
         for path in violations:
             print(f"  - {path}")
-        print("\nRemove these from tracking or add a narrow allowlist entry if they are intentional archive material.")
+        print(
+            "\nRemove these from tracking or add a narrow allowlist entry "
+            "if they are intentional archive material."
+        )
         return 1
 
     print("Archive hygiene check passed.")
