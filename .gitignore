@@ -1,0 +1,58 @@
+# OS/editor noise
+.DS_Store
+._*
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python caches and local test output
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+
+# Local environments and secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+.venv/
+venv/
+env/
+ENV/
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.gcda
+*.gcno
+*.gcov
+build/
+dist/
+
+# Logs and temporary files
+*.log
+*.bak
+*.tmp
+*.temp
+
+# JavaScript dependencies, if future examples add them
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
